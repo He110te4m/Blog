@@ -1,6 +1,6 @@
 /* 样式重置 */
 
-html, body, div, h1, h2, h3, h4, h5, h6, p, dl, dt, dd, ol, ul, li, fieldset, form, label, input, legend, table, caption, tbody, tfoot, thead, tr, th, td, textarea, article, aside, audio, canvas, figure, footer, header, mark, menu, nav, section, time, video {
+html, body, div, h1, h2, h3, h4, h5, h6, p, dl, dt, dd, ol, ul, li, fieldset, form, label, input, legend, table, caption, tbody, tfoot, thead, tr, th, td, textarea, article, aside, audio, canvas, footer, header, nav, section, video {
     margin: 0;
     padding: 0;
 }
@@ -8,7 +8,7 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 100%;
     font-weight: normal
 }
-article, aside, dialog, figure, footer, header, hgroup, nav, section, blockquote {
+article, aside, footer, header, nav, section, blockquote {
     display: block;
 }
 ul, ol {
@@ -32,11 +32,15 @@ strong, em, i {
     font-style: normal;
     font-weight: normal;
 }
-mark {
-    background: none;
+input, textarea, button {
+    outline: none;
 }
 input::-ms-clear {
     display: none !important;
+}
+textarea {
+    resize: none;
+    overflow: auto;
 }
 a {
     text-decoration: none;
@@ -54,10 +58,6 @@ hr {
     border-top: 1px solid #eee;
     -webkit-box-sizing: content-box;
 }
-/*.sidebar .container {
-    vertical-align: top;
-    display: inline-block;
-}*/
 
 /* 侧边栏 */
 
@@ -244,6 +244,7 @@ hr {
 .container .tools .search input:focus, .container .tools .search input:hover {
     border-radius: 1em;
     border-color: #000;
+    border: 1px solid #ccc;
 }
 .container .tools .search button {
     width: 4em;
@@ -514,6 +515,62 @@ hr {
     text-indent: 2em;
 }
 /* --------微语页面结束-------- */
+
+/* --------联系我页面开始-------- */
+.container .contact {
+    width: 100%;
+    overflow: auto;
+    padding-top: 1.5em;
+    height: calc(100% - 7.5em);
+}
+.container .contact .contact-body {
+    width: 70%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.container .contact .contact-body input, .container .contact .contact-body textarea {
+    width: 100%;
+    margin: 0.5em;
+    font-size: 1.2em;
+    padding: 0.5em 1em;
+    border: 1px solid #ccc;
+    line-height: 1.5em !important;
+    transition: border-radius 0.5s;
+    -o-transition: border-radius 0.5s;
+    -webkit-transition: border-radius 0.5s;
+}
+.container .contact .contact-body input:hover, .container .contact .contact-body input:focus, .container .contact .contact-body textarea:hover, .container .contact .contact-body textarea:focus {
+    border-radius: 2em;
+    border: 1px solid #ccc;
+}
+.container .contact .contact-body input {
+    font-size: 1.2em;
+    line-height: 1.5em;
+}
+.container .contact .contact-body button {
+    border: none;
+    margin: 0 0.5em;
+    font-size: 1.5em;
+    padding: 0.5em 1em;
+    border-radius: 5px;
+    border: 1px solid #999;
+    display: inline-block;
+}
+.container .contact .contact-body .submit {
+    color: #fff;
+    background-color: #009688;
+}
+.container .contact .contact-body .submit:hover {
+    background-color: #33aba0;
+}
+.container .contact .contact-body .reset {
+    background-color: #fff;
+}
+.container .contact .contact-body .reset:hover {
+    background-color: #eee;
+}
+/* --------联系我页面结束-------- */
 
 /* 底板版权信息 */
 
