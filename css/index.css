@@ -1,0 +1,386 @@
+/* 样式重置 */
+
+html, body, h1, h2, h3, h4, h5, p, ul, li, form, input, button {
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-size: 1vw;
+    /*font-size: 16px;*/
+}
+input:focus {
+    outline: none;
+}
+ul {
+    list-style: none;
+}
+a {
+    text-decoration: none;
+}
+/*.sidebar .container {
+    vertical-align: top;
+    display: inline-block;
+}*/
+
+/* 侧边栏 */
+
+.sidebar {
+    width: 20vw;
+    color: #fff;
+    height: 100vh;
+    float: left;
+    overflow: auto;
+    background-color: #393d49;
+}
+.sidebar .sidebar-item {
+    margin-bottom: 1.5em;
+}
+.sidebar a {
+    color: #fff;
+}
+/* 头像 */
+
+.sidebar .avatar {
+    width: 100%;
+    padding: 1.5em 0 0;
+    text-align: center;
+}
+.sidebar .avatar img {
+    width: 8em;
+    height: 8em;
+    border-radius: 4em;
+}
+/* 姓名 */
+
+.sidebar .name {
+    text-align: center;
+}
+.sidebar .name {
+    font-size: 1.2em;
+}
+/* 个性签名 */
+
+.sidebar .sign {
+    color: #ccc;
+    text-align: center;
+}
+/* 社交链接 */
+
+.sidebar .social ul {
+    text-align: center;
+}
+.sidebar .social ul li {
+    margin: 0 0.25em;
+    display: inline-block;
+}
+.sidebar .social ul li img {
+    width: 2em;
+    height: 2em;
+    border-radius: 1em;
+}
+/* 导航栏 */
+
+.sidebar .navbar ul li a {
+    color: #ccc;
+    padding: 0.5em;
+    font-size: 1.2em;
+    text-align: center;
+    display: inline-block;
+    width: calc(100% - 1em);
+    transition: border 0.5s;
+}
+.sidebar .navbar ul li a:hover, .sidebar .navbar .active a {
+    color: #fff;
+    background-color: #23262e;
+    width: calc(100% - 1.5em);
+    border-left: 0.25em solid #1aa094;
+    border-right: 0.25em solid #1aa094;
+}
+/* 主要内容 */
+
+.container {
+    height: 100vh;
+    overflow: hidden;
+}
+.container a {
+    color: #fff;
+}
+/* --------帖子列表页面开始-------- */
+
+/* 顶部分类栏 */
+
+.container .category {
+    width: 100%;
+    height: 4em;
+    text-align: center;
+    background-color: #23262e;
+}
+.container .category ul li {
+    display: inline-block;
+}
+.container .category ul li a {
+    color: #ccc;
+    width: 3em;
+    height: 3.5em;
+    margin: 0.5em;
+    padding: 0.5em 1em;
+    font-size: 1.2em;
+    line-height: 3.5em;
+    border: 1px solid #aaa;
+    transition: border-radius 0.5s;
+}
+.container .category .active a, .container .category ul li a:hover {
+    color: #fff;
+    border-radius: 1.2em;
+}
+/* 网站主体内容 */
+
+.container .main {
+    width: 100%;
+    overflow: hidden;
+    height: calc(100% - 7em);
+}
+/* 帖子列表 */
+
+.container .post-list {
+    padding: 0.5em;
+    overflow: auto;
+    height: calc(100% - 5em);
+}
+.container .post-list li {
+    height: 2.5em;
+    line-height: 2.5em;
+    transition: padding-left 0.5s;
+    border-bottom: 1px dashed #ccc;
+}
+.container .post-list li:last-child {
+    border-bottom: none;
+}
+.container .post-list li:hover {
+    padding-left: 1.2em;
+}
+/* 帖子列表项内容 */
+
+.container .post-list .post-title {
+    color: #000;
+    float: left;
+    font-size: 1.2em;
+}
+.container .post-list .post-date {
+    color: #999;
+    float: right;
+    font-size: 0.8em;
+}
+/* 底部搜索栏和翻页 */
+
+.container .tools {
+    height: 2em;
+    padding: 1em;
+    line-height: 2em;
+    width: calc(100% - 2em);
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+/* 搜索 */
+
+.container .tools .search {
+    width: 70%;
+    float: left;
+    height: 2em;
+}
+.container .tools .search input {
+    height: 100%;
+    padding: 0 1em;
+    display: inline-block;
+    border: 1px solid #ccc;
+    width: calc(100% - 6em);
+    transition: border-color 1s linear;
+    transition: border-radius 0.5s;
+}
+.container .tools .search input:focus, .container .tools .search input:hover {
+    border-radius: 1em;
+    border-color: #000;
+}
+.container .tools .search button {
+    width: 4em;
+    color: #fff;
+    height: 100%;
+    border: none;
+    padding: 0 1em;
+    display: inline-block;
+    background-color: #009688;
+}
+.container .tools .search button:hover {
+    background-color: #33aba0;
+}
+/* 翻页 */
+
+.container .tools .pages {
+    height: 100%;
+    overflow: hidden;
+    text-align: right;
+    padding-right: 1em;
+}
+.container .tools .pages li {
+    display: inline-block;
+}
+.container .tools .pages li a {
+    color: #999;
+    width: 1.8em;
+    height: 1.8em;
+    text-align: center;
+    line-height: 1.8em;
+    border-radius: 50%;
+    display: inline-block;
+    border: 1px solid #fff;
+}
+.container .tools .pages li a:hover {
+    color: #03a9f5;
+    border: 1px solid #03a9f5;
+}
+.container .tools .pages .none a:hover {
+    color: #999;
+    cursor: default;
+    border: 1px solid #fff;
+}
+/* --------帖子列表页面结束-------- */
+
+/* --------帖子详情页面开始-------- */
+
+/* 帖子顶部功能区 */
+
+.container .post-nav {
+    height: 3em;
+    background-color: #23262e;
+}
+/* 返回按钮 */
+
+.container .post-nav .back {
+    width: 4em;
+    color: #fff;
+    height: 100%;
+    border: none;
+    padding: 0 1em;
+    display: inline-block;
+    background-color: #009688;
+}
+.container .post-nav .back:hover {
+    background-color: #33aba0;
+}
+/* 帖子内容 */
+
+.container .post-body {
+    width: 100%;
+    overflow: auto;
+    padding-top: 1.5em;
+    height: calc(100% - 7.5em);
+}
+.container .post-body .post {
+    width: 70%;
+    margin: 0 auto;
+}
+/* 帖子标题 */
+
+.container .post-body .post .post-title {
+    font-size: 2.5em;
+    margin: 0.5em 0;
+    text-align: center;
+}
+/* 帖子相关信息 */
+.container .post-body .post .post-info {
+    text-align: center;
+}
+.container .post-body .post .post-info section {
+    margin: 0 0.5em;
+    display: inline-block;
+}
+.container .post-body .post .post-info a {
+    color: #777;
+    height: 1.5em;
+    line-height: 1.5em;
+    padding: 0.25em 0.5em;
+    display: inline-block;
+    border: 1px solid #777;
+    transition: border-radius 0.5s;
+}
+.container .post-body .post .post-info a:hover {
+    color: #000;
+    border-radius: 1em;
+}
+.container .post-body .post .post-info .active {
+    color: #777;
+    cursor: default;
+    border-radius: 1em;
+}
+.container .post-body .post .post-info .active:hover {
+    color: #777;
+}
+/* 帖子正文 */
+.container .post-body .post .post-detail {
+}
+/* --------帖子详情页面结束-------- */
+
+/* 底板版权信息 */
+
+.container .copyright {
+    width: 100%;
+    height: 3em;
+    overflow: auto;
+    line-height: 3em;
+    text-align: center;
+    background-color: #eee;
+}
+.container .copyright a {
+    color: #333;
+}
+/* sm */
+
+@media (max-width: 767px) {
+    .sidebar {
+        display: none;
+    }
+    .container {
+        width: 100%;
+    }
+    .container .post-list {
+        height: calc(100% - 8em);
+    }
+    .container .tools {
+        height: 4em;
+    }
+    .container .tools .search, .container .tools .pages {
+        float: none;
+        width: 100%;
+        text-align: center;
+    }
+    .container .tools .pages {
+        margin: 0.5em 1em;
+    }
+}
+/* xs */
+
+@media (max-width: 430px) {
+    body {
+        font-size: 1vh;
+    }
+    .sidebar {
+        display: none;
+    }
+    .container {
+        width: 100%;
+    }
+    .container .post-list {
+        height: calc(100% - 8em);
+    }
+    .container .tools {
+        height: 4em;
+    }
+    .container .tools .search, .container .tools .pages {
+        float: none;
+        width: 100%;
+        text-align: center;
+    }
+    .container .tools .pages {
+        margin: 0.5em 1em;
+    }
+}
