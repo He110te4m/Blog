@@ -1,6 +1,6 @@
 /* 样式重置 */
 
-html, body, h1, h2, h3, h4, h5, p, ul, li, form, input, button {
+html, body, h1, h2, h3, h4, h5, p, ul, ol, li, form, input, button, blockquote {
     margin: 0;
     padding: 0;
 }
@@ -11,11 +11,18 @@ body {
 input:focus {
     outline: none;
 }
-ul {
+ul ol {
     list-style: none;
 }
 a {
     text-decoration: none;
+}
+hr {
+    height: 0;
+    display: block;
+    box-sizing: content-box;
+    border-top: 1px solid #eee;
+    -webkit-box-sizing: content-box;
 }
 /*.sidebar .container {
     vertical-align: top;
@@ -317,7 +324,117 @@ a {
 }
 /* 帖子正文 */
 .container .post-body .post .post-detail {
+    margin: 1.5em 0;
 }
+.container .post-body .post .post-detail img {
+    width: 100%;
+    margin: 1em 0;
+}
+.container .post-body .post .post-detail p {
+    margin: 2em 0;
+    text-indent: 2em;
+    line-height: 1.8em;
+}
+.container .post-body .post .post-detail a {
+    color: #666
+}
+.container .post-body .post .post-detail blockquote {
+    margin: 1em 0;
+    font-style: italic;
+    padding-left: 1.75em;
+    border-left: 0.25em solid #ccc;
+}
+.container .post-body .post .post-detail h1, .container .post-body .post .post-detail h2, .container .post-body .post .post-detail h3, .container .post-body .post .post-detail h4, .container .post-body .post .post-detail h5, .container .post-body .post .post-detail h6 {
+    margin: 1em 0;
+}
+.container .post-body .post .post-detail h1 {
+    font-size: 2em;
+}
+.container .post-body .post .post-detail h2 {
+    font-size: 1.8em;
+}
+.container .post-body .post .post-detail h3 {
+    font-size: 1.6em;
+}
+.container .post-body .post .post-detail h4 {
+    font-size: 1.4em;
+}
+.container .post-body .post .post-detail h5 {
+    font-size: 1.2em;
+}
+.container .post-body .post .post-detail h6 {
+    font-size: 1em;
+}
+.container .post-body .post .post-detail table {
+    width: 100%;
+    color: #666;
+    margin: 1em 0;
+    border-spacing: 0;
+    background-color: #fff;
+    border-collapse: collapse;
+}
+.container .post-body .post .post-detail thead, .container .post-body .post .post-detail tbody {
+    border-color: inherit;
+    vertical-align: middle;
+    display: table-row-group;
+}
+.container .post-body .post .post-detail tr {
+    transition: all .3s;
+    -webkit-transition: all .3s;
+}
+.container .post-body .post .post-detail tr:hover {
+    background-color: #f2f2f2;
+}
+.container .post-body .post .post-detail thead tr {
+    background-color: #f2f2f2;
+}
+.container .post-body .post .post-detail thead tr th {
+    text-align: left;
+    font-weight: 400;
+}
+.container .post-body .post .post-detail th, .container .post-body .post .post-detail td {
+    min-height: 20px;
+    padding: 9px 15px;
+    line-height: 20px;
+    position: relative;
+    border: 1px solid #e6e6e6;
+}
+.container .post-body .post .post-detail dl {
+    width: 100%;
+}
+.container .post-body .post .post-detail dl dd {
+    margin-left: 0;
+    padding: 0.5em 1em;
+    margin-bottom: -1px;
+    border: 1px solid #dedede;
+    transition: all 0.5s;
+}
+.container .post-body .post .post-detail dl dd:hover {
+    color: #000;
+    background-color: #f5f5f5;
+}
+.container .post-body .post .post-detail ul {
+    margin: 1em 0;
+    padding-left: 2em;
+}
+.container .post-body .post .post-detail ul li {
+    display: list-item;
+    list-style-type: disc;
+}
+.container .post-body .post .post-detail ul ul li {
+    list-style-type: circle;
+}
+.container .post-body .post .post-detail ul ul ul li {
+    list-style-type: square;
+}
+.container .post-body .post .post-detail ol {
+    margin: 1em 0;
+    padding-left: 2em;
+}
+.container .post-body .post .post-detail ol li {
+    list-style-type:decimal;
+}
+.container .post-body .post .post-detail pre {}
 /* --------帖子详情页面结束-------- */
 
 /* 底板版权信息 */
