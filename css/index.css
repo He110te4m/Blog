@@ -1,21 +1,51 @@
 /* 样式重置 */
 
-html, body, h1, h2, h3, h4, h5, p, ul, ol, li, form, input, button, blockquote {
+html, body, div, h1, h2, h3, h4, h5, h6, p, dl, dt, dd, ol, ul, li, fieldset, form, label, input, legend, table, caption, tbody, tfoot, thead, tr, th, td, textarea, article, aside, audio, canvas, figure, footer, header, mark, menu, nav, section, time, video {
     margin: 0;
     padding: 0;
 }
-body {
-    font-size: 1vw;
-    /*font-size: 16px;*/
+h1, h2, h3, h4, h5, h6 {
+    font-size: 100%;
+    font-weight: normal
 }
-input:focus {
-    outline: none;
+article, aside, dialog, figure, footer, header, hgroup, nav, section, blockquote {
+    display: block;
 }
-ul ol {
+ul, ol {
     list-style: none;
+}
+img {
+    border: 0 none;
+    vertical-align: top;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after, q:before, q:after {
+    content: none;
+}
+table {
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+strong, em, i {
+    font-style: normal;
+    font-weight: normal;
+}
+mark {
+    background: none;
+}
+input::-ms-clear {
+    display: none !important;
 }
 a {
     text-decoration: none;
+    color: #333;
+}
+/* 自定义样式 */
+
+body {
+    font-size: 1vw;
 }
 hr {
     height: 0;
@@ -95,6 +125,8 @@ hr {
     display: inline-block;
     width: calc(100% - 1em);
     transition: border 0.5s;
+    -o-transition: border 0.5s;
+    -webkit-transition: border 0.5s;
 }
 .sidebar .navbar ul li a:hover, .sidebar .navbar .active a {
     color: #fff;
@@ -130,11 +162,13 @@ hr {
     width: 3em;
     height: 3.5em;
     margin: 0.5em;
-    padding: 0.5em 1em;
     font-size: 1.2em;
+    padding: 0.5em 1em;
     line-height: 3.5em;
     border: 1px solid #aaa;
     transition: border-radius 0.5s;
+    -o-transition: border-radius 0.5s;
+    -webkit-transition: border-radius 0.5s;
 }
 .container .category .active a, .container .category ul li a:hover {
     color: #fff;
@@ -159,6 +193,8 @@ hr {
     line-height: 2.5em;
     transition: padding-left 0.5s;
     border-bottom: 1px dashed #ccc;
+    -o-transition: padding-left 0.5s;
+    -webkit-transition: padding-left 0.5s;
 }
 .container .post-list li:last-child {
     border-bottom: none;
@@ -201,8 +237,9 @@ hr {
     display: inline-block;
     border: 1px solid #ccc;
     width: calc(100% - 6em);
-    transition: border-color 1s linear;
-    transition: border-radius 0.5s;
+    transition: all 0.5s;
+    -o-transition: all 0.5s;
+    -webkit-transition: all 0.5s;
 }
 .container .tools .search input:focus, .container .tools .search input:hover {
     border-radius: 1em;
@@ -227,6 +264,9 @@ hr {
     overflow: hidden;
     text-align: right;
     padding-right: 1em;
+    transition: all 0.5s;
+    -o-transition: all 0.5s;
+    -webkit-transition: all 0.5s;
 }
 .container .tools .pages li {
     display: inline-block;
@@ -294,6 +334,7 @@ hr {
     text-align: center;
 }
 /* 帖子相关信息 */
+
 .container .post-body .post .post-info {
     text-align: center;
 }
@@ -309,6 +350,8 @@ hr {
     display: inline-block;
     border: 1px solid #777;
     transition: border-radius 0.5s;
+    -o-transition: border-radius 0.5s;
+    -webkit-transition: border-radius 0.5s;
 }
 .container .post-body .post .post-info a:hover {
     color: #000;
@@ -323,6 +366,7 @@ hr {
     color: #777;
 }
 /* 帖子正文 */
+
 .container .post-body .post .post-detail {
     margin: 1.5em 0;
 }
@@ -369,9 +413,7 @@ hr {
     width: 100%;
     color: #666;
     margin: 1em 0;
-    border-spacing: 0;
     background-color: #fff;
-    border-collapse: collapse;
 }
 .container .post-body .post .post-detail thead, .container .post-body .post .post-detail tbody {
     border-color: inherit;
@@ -380,6 +422,7 @@ hr {
 }
 .container .post-body .post .post-detail tr {
     transition: all .3s;
+    -o-transition: all .3s;
     -webkit-transition: all .3s;
 }
 .container .post-body .post .post-detail tr:hover {
@@ -406,8 +449,10 @@ hr {
     margin-left: 0;
     padding: 0.5em 1em;
     margin-bottom: -1px;
-    border: 1px solid #dedede;
     transition: all 0.5s;
+    -o-transition: all 0.5s;
+    border: 1px solid #dedede;
+    -webkit-transition: all 0.5s;
 }
 .container .post-body .post .post-detail dl dd:hover {
     color: #000;
@@ -432,10 +477,43 @@ hr {
     padding-left: 2em;
 }
 .container .post-body .post .post-detail ol li {
-    list-style-type:decimal;
+    list-style-type: decimal;
 }
 .container .post-body .post .post-detail pre {}
 /* --------帖子详情页面结束-------- */
+
+/* --------微语页面开始-------- */
+
+.container .weiyu {
+    width: 100%;
+    overflow: auto;
+    padding-top: 1.5em;
+    height: calc(100% - 7.5em);
+}
+.container .weiyu .weiyu-list {
+    width: 70%;
+    margin: 0 auto;
+    list-style: none;
+}
+.container .weiyu .weiyu-list blockquote {
+    margin: 2em 0;
+    padding: 0.5em 10px;
+    background: #f9f9f9;
+    border: 2px solid #ccc;
+    quotes: "\201C""\201D""\2018""\2019";
+}
+.container .weiyu .weiyu-list blockquote:before {
+    color: #ccc;
+    font-size: 4em;
+    content: "\201C";
+    line-height: 0.1em;
+    margin-left: -0.5em;
+    vertical-align: -0.5em;
+}
+.container .weiyu .weiyu-list blockquote p {
+    text-indent: 2em;
+}
+/* --------微语页面结束-------- */
 
 /* 底板版权信息 */
 
