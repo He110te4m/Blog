@@ -1,146 +1,182 @@
+<!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf8">
-        <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 
-        <title>He110's Blog</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-        <link rel="stylesheet" href="css/index.css">
-    </head>
+    <title>He110's Blog</title>
 
-    <body>
-        <aside class="sidebar">
-            <section class="sidebar-item avatar">
-                <img src="img/avatar.jpg" alt="He110">
-            </section>
+    <link rel="stylesheet" href="lib/normalize.css">
+    <link rel="stylesheet" href="lib/layui/css/layui.css">
+    <link rel="stylesheet" href="css/global.css">
+    <!--[if lt IE 9]>
+        <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+        <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
 
-            <section class="sidebar-item name">
-                <h2>He110</h2>
-            </section>
+<body>
+    <aside class="sidebar layui-bg-black">
+        <img class="avatar" src="img/avatar.jpg" alt="avatar">
 
-            <section class="sidebar-item sign">
-                <p>言犹在耳凌云志，</p>
-                <p>三尺丰碑丈五字；</p>
-                <p>那日谁断我双翅，</p>
-                <p>今朝可敢再来试？</p>
-            </section>
+        <h2 class="author">He110</h2>
 
-            <section class="sidebar-item social">
-                <ul>
-                    <li><a href="#"><img src="img/avatar.jpg"></a></li>
-                    <li><a href="#"><img src="img/avatar.jpg"></a></li>
-                    <li><a href="#"><img src="img/avatar.jpg"></a></li>
-                </ul>
-            </section>
+        <section class="desc">
+            <p>言犹在耳凌云志，</p>
+            <p>三尺丰碑丈五字；</p>
+            <p>那日谁断我双翅，</p>
+            <p>今朝可敢再来试？</p>
+        </section>
 
-            <section class="navbar">
-                <ul>
-                    <li class="active"><a href="#">首页</a></li>
-                    <li><a href="#">微语</a></li>
-                    <li><a href="#">留言</a></li>
-                    <li><a href="#">关于我</a></li>
-                </ul>
-            </section>
-        </aside>
+        <section class="social">
+            <h2>Social</h2>
+            <ul>
+                <li><a href="#"><img src="img/avatar.jpg"></a></li>
+                <li><a href="#"><img src="img/avatar.jpg"></a></li>
+            </ul>
+        </section>
 
-        <main class="container">
-            <header class="category">
-                <ul>
-                    <li><a href="#">前端</a></li>
-                    <li class="active"><a href="#">后台</a></li>
-                    <li><a href="#">杂谈</a></li>
-                </ul>
-            </header>
+        <section class="links">
+            <h2>Links</h2>
+            <ul>
+                <li><a href="#">He110's Blog</a></li>
+                <li><a href="#">He110's Blog</a></li>
+                <li><a href="#">He110's Blog</a></li>
+            </ul>
+        </section>
+    </aside>
 
-            <section class="main">
-                <ul class="post-list">
-                    <li>
-                        <a href="#" class="post-title">帖子标题</a>
-                        <span class="post-date">3 天前</span>
-                    </li>
-                    <li>
-                        <a href="#" class="post-title">帖子标题</a>
-                        <span class="post-date">3 天前</span>
-                    </li>
-                    <li>
-                        <a href="#" class="post-title">帖子标题</a>
-                        <span class="post-date">3 天前</span>
-                    </li>
-                    <li>
-                        <a href="#" class="post-title">帖子标题</a>
-                        <span class="post-date">3 天前</span>
-                    </li>
-                    <li>
-                        <a href="#" class="post-title">帖子标题</a>
-                        <span class="post-date">3 天前</span>
-                    </li>
-                    <li>
-                        <a href="#" class="post-title">帖子标题</a>
-                        <span class="post-date">3 天前</span>
-                    </li>
-                    <li>
-                        <a href="#" class="post-title">帖子标题</a>
-                        <span class="post-date">3 天前</span>
-                    </li>
-                    <li>
-                        <a href="#" class="post-title">帖子标题</a>
-                        <span class="post-date">3 天前</span>
-                    </li>
-                    <li>
-                        <a href="#" class="post-title">帖子标题</a>
-                        <span class="post-date">3 天前</span>
-                    </li>
-                    <li>
-                        <a href="#" class="post-title">帖子标题</a>
-                        <span class="post-date">3 天前</span>
-                    </li>
-                    <li>
-                        <a href="#" class="post-title">帖子标题</a>
-                        <span class="post-date">3 天前</span>
-                    </li>
-                    <li>
-                        <a href="#" class="post-title">帖子标题</a>
-                        <span class="post-date">3 天前</span>
-                    </li>
-                    <li>
-                        <a href="#" class="post-title">帖子标题</a>
-                        <span class="post-date">3 天前</span>
-                    </li>
-                    <li>
-                        <a href="#" class="post-title">帖子标题</a>
-                        <span class="post-date">3 天前</span>
-                    </li>
-                    <li>
-                        <a href="#" class="post-title">帖子标题</a>
-                        <span class="post-date">3 天前</span>
-                    </li>
-                </ul>
+    <header class="header nav">
+        <ul class="navbar">
+            <li><a href="#">前端</a></li>
+            <li><a class="active">后台</a></li>
+            <li><a href="#">杂谈</a></li>
+        </ul>
+    </header>
 
-                <section class="tools">
-                    <section class="search">
-                        <form>
-                            <input type="text" placeholder="输入关键字搜索">
-                            <button type="submit">搜索</button>
-                        </form>
-                    </section>
+    <main class="content">
+        <ul class="post-list">
+            <li class="post">
+                <span class="post-title"><a href="#">我是帖子列表中的帖子标题</a></span>
+                <span class="post-date">3天前</span>
+            </li>
+            <li class="post">
+                <span class="post-title"><a href="#">我是帖子列表中的帖子标题</a></span>
+                <span class="post-date">3天前</span>
+            </li>
+            <li class="post">
+                <span class="post-title"><a href="#">我是帖子列表中的帖子标题</a></span>
+                <span class="post-date">3天前</span>
+            </li>
+            <li class="post">
+                <span class="post-title"><a href="#">我是帖子列表中的帖子标题</a></span>
+                <span class="post-date">3天前</span>
+            </li>
+            <li class="post">
+                <span class="post-title"><a href="#">我是帖子列表中的帖子标题</a></span>
+                <span class="post-date">3天前</span>
+            </li>
+            <li class="post">
+                <span class="post-title"><a href="#">我是帖子列表中的帖子标题</a></span>
+                <span class="post-date">3天前</span>
+            </li>
+            <li class="post">
+                <span class="post-title"><a href="#">我是帖子列表中的帖子标题</a></span>
+                <span class="post-date">3天前</span>
+            </li>
+            <li class="post">
+                <span class="post-title"><a href="#">我是帖子列表中的帖子标题</a></span>
+                <span class="post-date">3天前</span>
+            </li>
+            <li class="post">
+                <span class="post-title"><a href="#">我是帖子列表中的帖子标题</a></span>
+                <span class="post-date">3天前</span>
+            </li>
+            <li class="post">
+                <span class="post-title"><a href="#">我是帖子列表中的帖子标题</a></span>
+                <span class="post-date">3天前</span>
+            </li>
+            <li class="post">
+                <span class="post-title"><a href="#">我是帖子列表中的帖子标题</a></span>
+                <span class="post-date">3天前</span>
+            </li>
+            <li class="post">
+                <span class="post-title"><a href="#">我是帖子列表中的帖子标题</a></span>
+                <span class="post-date">3天前</span>
+            </li>
+            <li class="post">
+                <span class="post-title"><a href="#">我是帖子列表中的帖子标题</a></span>
+                <span class="post-date">3天前</span>
+            </li>
+            <li class="post">
+                <span class="post-title"><a href="#">我是帖子列表中的帖子标题</a></span>
+                <span class="post-date">3天前</span>
+            </li>
+            <li class="post">
+                <span class="post-title"><a href="#">我是帖子列表中的帖子标题</a></span>
+                <span class="post-date">3天前</span>
+            </li>
+            <li class="post">
+                <span class="post-title"><a href="#">我是帖子列表中的帖子标题</a></span>
+                <span class="post-date">3天前</span>
+            </li>
+            <li class="post">
+                <span class="post-title"><a href="#">我是帖子列表中的帖子标题</a></span>
+                <span class="post-date">3天前</span>
+            </li>
+            <li class="post">
+                <span class="post-title"><a href="#">我是帖子列表中的帖子标题</a></span>
+                <span class="post-date">3天前</span>
+            </li>
+            <li class="post">
+                <span class="post-title"><a href="#">我是帖子列表中的帖子标题</a></span>
+                <span class="post-date">3天前</span>
+            </li>
+            <li class="post">
+                <span class="post-title"><a href="#">我是帖子列表中的帖子标题</a></span>
+                <span class="post-date">3天前</span>
+            </li>
+        </ul>
 
-                    <section class="pages">
-                        <ul>
-                            <li><a href="#"><<</a></li>
-                            <li><a href="#"><</a></li>
-                            <li><a href="#">2</a></li>
-                            <li class="none"><a href="#">/</a></li>
-                            <li class="none"><a href="#">10</a></li>
-                            <li><a href="#">></a></li>
-                            <li><a href="#">>></a></li>
-                        </ul>
-                    </section>
+        <section class="post-list-tools">
+            <span class="search layui-form">
+                <section class="keyword layui-input-inline">
+                    <input type="text" class="layui-input" name="title" required lay-verify="required" placeholder="请输入关键词" style="height: 3rem;" autocomplete="off">
                 </section>
-            </section>
+                <section class="submit">
+                    <button class="layui-btn layui-btn-sm layui-btn-normal" lay-submit lay-filter="search"><span class="layui-icon">&#xe615;</span></button>
+                </section>
+            </span>
+            <span class="page">
+                <ul>
+                    <li><a href="#">«</a></li>
+                    <li><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a class="active">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li><a class="disable">...</a></li>
+                    <li><a href="#">7</a></li>
+                    <li><a href="#">»</a></li>
+                </ul>
+            </span>
+        </section>
+    </main>
 
-            <footer class="copyright">
-                Copyright © 2017 由 <a href="https://www.github.com/he110te4m/Despote" target="_blank">Despote</a> Framework 强力驱动. <a href="https://www.he110.top">He110</a> All rights reserved.
-            </footer>
-        </main>
-    </body>
+    <footer class="footer layui-bg-gray">
+        <section class="copyright">Copyright © 2017 由 <a href="https://www.github.com/he110te4m/Despote" target="_blank">Despote</a> Framework 强力驱动. <a href="https://www.he110.top">He110</a> All rights reserved.</section>
+    </footer>
+
+    <script src="lib/layui/layui.js"></script>
+    <script>
+    layui.config({
+        version: '1.0.0',
+        base: 'mods/'
+    }).extend({
+        blog: 'index'
+    }).use('blog');
+    </script>
+</body>
+
 </html>
