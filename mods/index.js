@@ -1,15 +1,17 @@
-layui.define(['form', 'layer', 'jquery', 'laypage'], function(exports) {
+layui.define(['form', 'layer', 'jquery', 'code'], function(exports) {
     var $ = layui.jquery
         ,form = layui.form
         ,layer = layui.layer
-        ,laypage = layui.laypage;
+        ,code = layui.code();
 
     layer.msg('Hello Blog');
 
-    laypage.render({
-        elem: 'post-page',
-        count: 1000,
-        groups: 3,
+    layui.code({
+        elem: 'pre>code',
+        height: '200px',
+        encode: true,
+        title: '代码如下',
+        about: false
     });
 
     exports('blog');

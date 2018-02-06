@@ -25,7 +25,7 @@ html { font-size: 10px; }
 .nav { background-color: #f2f5f8; }
 .navbar { position: absolute; top: 50%; width: 100%; -webkit-transform: translate(0, -50%); -ms-transform: translate(0, -50%); -o-transform: translate(0, -50%); transform: translate(0, -50%); text-align: center; }
 .navbar li { display: inline-block; padding: 0 .5rem; }
-.navbar a { font-size: 1.8rem; display: inline-block; padding: .5rem; border: 1px solid #aaa; border-radius: .6rem; }
+.navbar a { font-size: 1.8rem; display: inline-block; padding: .5rem; border: 1px solid #aaa; border-radius: .6rem; height: 2rem; line-height: 2rem; }
 .navbar .active, .navbar .active:hover { cursor: default; color: #000; border-color: #3593f2; }
 
 /* 底部 */
@@ -54,10 +54,10 @@ html { font-size: 10px; }
 .article .title { font-size: 3rem; position: relative; width: 100%; text-align: center; }
 .article .info { font-size: 1.4rem; position: relative; top: 1.5rem; text-align: center; }
 .article .info span { padding: 0 1rem; }
-.article .detail { position: relative; top: 3rem; }
 /* 文章内容样式 */
+.article .detail { position: relative; top: 3rem; }
 .article .detail img { width: 100%; margin: 1.5rem 0; }
-.article .detail p { font-size: 1.6rem; line-height: 1.8rem; margin: 2rem 0; text-indent: 2em; }
+.article .detail p { font-size: 1.6rem; line-height: 1.8rem; margin: 2rem 0; }
 .article .detail a { margin: 0 .5rem; color: #00f; }
 .article .detail a:hover { color: #f0f; }
 .article .detail blockquote { font-style: italic; margin: 1.6rem 0; padding-left: 2rem; border-left: .6rem solid #ccc; }
@@ -75,6 +75,7 @@ html { font-size: 10px; }
 .article .detail ul ul li { list-style-type: circle; }
 .article .detail ul ul ul li { list-style-type: square; }
 .article .detail ol { margin: 1em 0; padding-left: 2em; }
+.article .detail pre ol { margin: 0; padding-left: 0; }
 .article .detail ol li { list-style-type: decimal; }
 
 /* 小屏设备 */
