@@ -4,14 +4,16 @@ layui.define(['form', 'layer', 'jquery', 'code'], function(exports) {
         ,layer = layui.layer
         ,code = layui.code();
 
-    layer.msg('Hello Blog');
-
     layui.code({
         elem: 'pre>code',
         height: '200px',
         encode: true,
         title: '代码如下',
         about: false
+    });
+
+    form.on('submit(search)', function() {
+        layer.msg('搜索功能开发中');
     });
 
     exports('blog');

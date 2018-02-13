@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/static/lib/layui/css/layui.css" media="all" />
+</head>
+<body style="width: 80%; margin: 20px auto;">
+    <fieldset class="layui-elem-field">
+        <legend>添加友链</legend>
+        <div class="layui-field-box">
+            <form class="row layui-form layui-form-pane">
+                <div class="layui-form-item">
+                    <div class="layui-col-md3 layui-col-md-offset1">
+                        <label class="layui-form-label">网站名</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="title" class="layui-input" required lay-verify="required" placeholder="He110's Blog">
+                        </div>
+                    </div>
+                    <div class="layui-col-md7">
+                        <label class="layui-form-label">友链地址</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="url" class="layui-input" required lay-verify="required" placeholder="http://blog.he110.info">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit lay-filter="link" lay-event="add">添加友链</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </fieldset>
+
+    <blockquote class="layui-elem-quote layui-form">
+        <div class="layui-inline">
+            <a data-type="del" class="layui-btn layui-btn-danger">批量删除</a>
+        </div>
+        <div class="layui-inline">
+            <div class="layui-form-mid layui-word-aux">Tips: 删除之后无法找回！</div>
+        </div>
+    </blockquote>
+
+    <table id="link-list" lay-filter="link-list"></table>
+
+    <script type="text/html" id="tools">
+        <botton class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</botton>
+    </script>
+
+    <script type="text/javascript" src="/static/lib/layui/layui.js"></script>
+    <script>
+    layui.config({
+        version: '1.0.0',
+        base: '/static/mods/'
+    }).extend({
+        blog: 'child'
+    }).use('blog');
+    </script>
+</body>
+</html>

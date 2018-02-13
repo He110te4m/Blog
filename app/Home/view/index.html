@@ -1,0 +1,26 @@
+<ul class="post-list">
+    <?php foreach ($list as $post): ?>
+        <li class="post">
+            <span class="post-title"><a href="/Article/detail?id=<?=$post['aid'];?>"><?=$post['title'];?></a></span>
+            <span class="post-date"><?=$post['date'];?></span>
+        </li>
+    <?php endforeach;?>
+</ul>
+
+<section class="post-list-tools">
+    <span class="search layui-form">
+        <section class="keyword layui-input-inline">
+            <input type="text" class="layui-input" name="title" required lay-verify="required" lay-verType="tips" placeholder="请输入关键词" style="height: 3rem;" autocomplete="off">
+        </section>
+        <section class="submit">
+            <button class="layui-btn layui-btn-sm layui-btn-normal" lay-submit lay-filter="search"><span class="layui-icon">&#xe615;</span></button>
+        </section>
+    </span>
+    <span class="page">
+        <ul>
+            <li><a href="/">«</a></li>
+            <li><a class="active" href="">1</a></li>
+            <li><a href="#">»</a></li>
+        </ul>
+    </span>
+</section>

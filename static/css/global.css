@@ -33,7 +33,7 @@ html { font-size: 10px; }
 
 /* 帖子列表 */
 .content { overflow: auto; }
-.post-list { position: absolute; top: 0; right: 0; bottom: 4rem; left: 0; padding: 1rem 2rem; }
+.post-list { position: absolute; top: 0; right: 0; bottom: 4rem; left: 0; padding: 1rem 2rem; overflow: auto; }
 .post-list .post { position: relative; width: 100%; height: 3.2rem; }
 .post-list .post-title { font-size: 1.6rem; position: absolute; top: 50%; right: 6rem; left: 0; display: inline-block; overflow: hidden; box-sizing: border-box; -webkit-transform: translate(0, -50%); -ms-transform: translate(0, -50%); -o-transform: translate(0, -50%); transform: translate(0, -50%); text-overflow: ellipsis; -ms-text-overflow: ellipsis; }
 .post-list .post-date { font-size: 1.2rem; position: absolute; top: 50%; right: 0; display: inline-block; box-sizing: border-box; width: 6rem; -webkit-transform: translate(0, -50%); -ms-transform: translate(0, -50%); -o-transform: translate(0, -50%); transform: translate(0, -50%); text-align: right; }
@@ -70,13 +70,12 @@ html { font-size: 10px; }
 .article .detail th, .article .detail td { line-height: 20px; position: relative; min-height: 20px; padding: 9px 15px; border: 1px solid #e6e6e6; }
 .article .detail dl dd { margin-bottom: -1px; margin-left: 0; padding: .5em 1em; -webkit-transition: all .5s; -o-transition: all .5s; transition: all .5s; border: 1px solid #dedede; }
 .article .detail dl dd:hover { color: #000; background-color: #f5f5f5; }
-.article .detail ul { margin: 1em 0; padding-left: 2em; }
-.article .detail ul li { display: list-item; list-style-type: disc; }
-.article .detail ul ul li { list-style-type: circle; }
-.article .detail ul ul ul li { list-style-type: square; }
-.article .detail ol { margin: 1em 0; padding-left: 2em; }
-.article .detail pre ol { margin: 0; padding-left: 0; }
-.article .detail ol li { list-style-type: decimal; }
+.article .detail ul, .article .detail ol { margin: 1em 0; padding-left: 2em; }
+.article .detail ul li, .article .detail ol ul li { display: list-item; list-style-type: disc; }
+.article .detail ul ul li, .article .detail ol ul ul li { list-style-type: circle; }
+.article .detail ul ul ul li, .article .detail ol ul ul ul li { list-style-type: square; }
+.article .detail ol li, .article .detail ul ol li { list-style-type: decimal; }
+.article .detail pre ul, .article .detail pre ol { margin: 0; padding-left: 0; }
 
 /* 小屏设备 */
 @media (max-width: 767px)
