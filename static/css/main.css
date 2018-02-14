@@ -181,3 +181,11 @@
 	.top_menu .layui-nav-item.showNotice[pc]{ display:none !important; }
 	.panel{ width:100%; }
 }
+
+/* Login 页面 */
+
+.login-main {position: absolute; top: 50%; left: 50%; width: 350px; -webkit-transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); -o-transform: translate(-50%, -50%); transform: translate(-50%, -50%); }
+.login-main header {height: 35px; line-height: 35px; font-size: 30px; font-weight: 100; text-align: center; }
+.login-main header, .login-main form, .login-main form .layui-input-inline {margin-bottom: 15px; }
+.login-main form .layui-input-inline, .login-main form .layui-input-inline input, .login-main form .layui-input-inline button {width: 100%; }
+.login-main form .login-btn {margin-bottom: 5px; }

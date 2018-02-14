@@ -21,6 +21,14 @@ class Index extends Controller
         $db    = Despote::sql();
         $cache = Despote::fileCache();
 
+        $sid1 = $cache->get('sid');
+        $sid2 = Despote::cookie()->get('sid');
+
+        if ($sid1 === false || $sid1 != $sid2) {
+            header('location: /Admin/User/login');
+            die;
+        }
+
         // 网站标题
         $title = $cache->get('title');
         if ($title === false) {

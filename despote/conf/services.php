@@ -35,11 +35,11 @@ return [
         // 数据库端口，默认为 3306
         'port'  => 3306,
 
-        // 数据库用户名，默认为 root
-        'usr'   => 'root',
+        // // 数据库用户名，默认为 root
+        // 'usr'   => 'blog',
 
-        // 数据库密码，默认为 root
-        'pwd'   => 'root',
+        // // 数据库密码，默认为 root
+        // 'pwd'   => '520520520',
 
         // 数据库名，默认为 test
         'name'  => 'blog',
@@ -130,7 +130,7 @@ return [
             ],
         ],
     ],
-    'md'        => '\despote\Extend\Parsedown',
+    'md'        => '\despote\extend\Parsedown',
     'tpl'       => [
         'class'  => '\despote\kernel\Tpl',
         'module' => 'Home',

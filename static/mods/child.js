@@ -7,6 +7,33 @@ layui.define(['form', 'layer', 'table', 'jquery', 'laydate'], function(exports) 
 
     layer.msg('blog');
 
+    /////////////
+    // 登陆页面 //
+    /////////////
+
+    form.on('submit(login)', function(obj) {
+        var index = layer.open({
+            type: 3,
+            icon: 1,
+        });
+        $.post('/Api/User/login', obj.field, function(data) {
+            if (typeof data == 'string') {
+                data = eval('(' + data + ')');
+            }
+            layer.close(index);
+            if (data.code) {
+                layer.alert(data.msg);
+            } else {
+                layer.msg('登陆成功，正在为您跳转...');
+                setTimeout(function() {
+                    window.location.href = '/Admin/Index/index';
+                }, 3000);
+            }
+        });
+
+        return false;
+    });
+
     ////////////////
     // 发布文章页面 //
     ////////////////
@@ -84,8 +111,8 @@ layui.define(['form', 'layer', 'table', 'jquery', 'laydate'], function(exports) 
                 layer.alert(res.msg);
             } else {
                 layer.msg('提交成功');
-                window.location.href = '/Article/detail?id=' + id;
             }
+                    window.location.href = '/Article/detail?id=' + id;
         });
 
         return false;
@@ -201,7 +228,7 @@ layui.define(['form', 'layer', 'table', 'jquery', 'laydate'], function(exports) 
             var index = layui.layer.open({
                 title: "编辑文章",
                 type: 2,
-                content: "/Admin/Article/edit",
+                content: "/Admin/Article/edit?id=" + obj.data.id,
                 success: function(layero, index) {
                     setTimeout(function() {
                         layui.layer.tips('点击此处返回', '.layui-layer-setwin .layui-layer-close', {

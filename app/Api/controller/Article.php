@@ -23,6 +23,16 @@ class Article extends Controller
         2 => '数据库操作出错',
     ];
 
+    public function init()
+    {
+        $sid1 = Despote::cookie()->get('sid');
+        $sid2 = Despote::fileCache()->get('sid');
+        if ($sid2 === false || $sid1 != $sid2) {
+            header('location: /404.html');
+            die;
+        }
+    }
+
     public function add()
     {
         $db   = Despote::sql();

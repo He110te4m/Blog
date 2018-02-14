@@ -25,7 +25,30 @@ layui.config({
         }
     }
     skins();
-    $(".changeSkin").click(function(){
+    $(".changePass").on('click', function() {
+        layer.prompt({
+            title: '修改密码',
+            value: Math.random() * 999999999 >> 0,
+            maxlength: 10,
+        }, function(value, index, elem) {
+            $.post('/Api/User/update', {key: value}, function(data) {
+                if (typeof data == 'string') {
+                    data = eval('(' + data + ')');
+                }
+                layer.close(index);
+                if (data.code) {
+                    layer.alert(data.msg);
+                } else {
+                    layer.msg('修改成功，正在跳转至登陆页...');
+                    // 定时 3s 注销登录
+                    setTimeout(function() {
+                        window.location.href = "/Admin/User/layout";
+                    }, 3000);
+                }
+            });
+        });
+    });
+    $(".changeSkin").click(function() {
         layer.open({
             title : "更换皮肤",
             area : ["310px","280px"],
