@@ -23,20 +23,37 @@ class Index extends Controller
         $cache = Despote::fileCache();
 
         $cate    = $http->get('cate');
+        $page    = $http->get('page', 1);
         $keyword = $http->get('keyword');
 
+        $start  = ($page - 1) * 20;
+        $params = '?';
+
         if (is_null($cate) && is_null($keyword)) {
-            $res       = $db->select('`aid`, `title`, `cdate` AS `date`', '`article`', 'ORDER BY `cdate` DESC LIMIT 20');
+            $res       = $db->select('`aid`, `title`, `cdate` AS `date`', '`article`', "ORDER BY `cdate` DESC LIMIT {$start}, 20");
             $post_list = $res->fetchAll();
+
+            $res   = $db->select('COUNT(1)', '`article`');
+            $count = $res->fetch()['COUNT(1)'];
         } else if (is_null($keyword)) {
             $res = $db->select('`cid`', '`category`', 'WHERE `title` = ?', [trim($cate)]);
             $cid = $res->fetch()['cid'];
 
-            $res       = $db->select('`aid`, `title`, `cdate` AS `date`', '`article`', 'WHERE `cid` = ? ORDER BY `cdate` DESC LIMIT 20', [$cid]);
+            $res       = $db->select('`aid`, `title`, `cdate` AS `date`', '`article`', "WHERE `cid` = ? ORDER BY `cdate` DESC LIMIT {$start}, 20", [$cid]);
             $post_list = $res->fetchAll();
+
+            $res   = $db->select('COUNT(1)', '`article`', 'WHERE `cid` = ?', [$cid]);
+            $count = $res->fetch()['COUNT(1)'];
+
+            $params .= '&cate=' . $cate;
         } else if (is_null($cate)) {
-            $res       = $db->select('`aid`, `title`, `cdate` AS `date`', '`article`', "WHERE `title` LIKE '%{$keyword}%' ORDER BY `cdate` DESC LIMIT 20");
+            $res       = $db->select('`aid`, `title`, `cdate` AS `date`', '`article`', "WHERE `title` LIKE '%{$keyword}%' ORDER BY `cdate` DESC LIMIT {$start}, 20");
             $post_list = $res->fetchAll();
+
+            $res   = $db->select('COUNT(1)', '`article`', "WHERE `title` LIKE '%{$keyword}%'");
+            $count = $res->fetch()['COUNT(1)'];
+
+            $params .= '&keyword=' . $keyword;
         }
 
         $units = ['年', '月', '天', '小时', '分钟', '秒'];
@@ -52,8 +69,27 @@ class Index extends Controller
             }
         }
 
+        $pageCount = ceil($count / 20);
+
+        if ($page == 1) {
+            $prev = '<li><a class="disable"><</a></li>';
+        } else {
+            $prev = '<li><a href="' . $params . '&page=' . ($page - 1) . '"><</a></li>';
+        }
+
+        if ($pageCount == $page || $pageCount < 3) {
+            $next = '<li><a class="disable">></a></li>';
+        } else {
+            $next = '<li><a href="' . $params . '&page=' . ($page + 1) . '">></a></li>';
+        }
+
         $pageParams = [
-            'list' => $post_list,
+            'list'   => $post_list,
+            'prev'   => $prev,
+            'curr'   => $page,
+            'next'   => $next,
+            'count'  => $pageCount,
+            'params' => $params,
         ];
 
         // 网站标题

@@ -18,9 +18,11 @@
     </form>
     <span class="page">
         <ul>
-            <li><a href="/">«</a></li>
-            <li><a class="active" href="">1</a></li>
-            <li><a href="#">»</a></li>
+            <li><a href="<?=$params;?>"><<</a></li>
+            <?=$prev;?>
+            <li><a class="active" href=""><?=$curr;?></a></li>
+            <?=$next;?>
+            <li><a href="<?=$params . '&page=' . $count;?>">>></a></li>
         </ul>
     </span>
 </section>
