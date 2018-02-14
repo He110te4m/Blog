@@ -12,9 +12,5 @@ layui.define(['form', 'layer', 'jquery', 'code'], function(exports) {
         about: false
     });
 
-    form.on('submit(search)', function() {
-        layer.msg('搜索功能开发中');
-    });
-
     exports('blog');
 });

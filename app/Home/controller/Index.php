@@ -22,16 +22,20 @@ class Index extends Controller
         $http  = Despote::request();
         $cache = Despote::fileCache();
 
-        $cate = $http->get('cate');
+        $cate    = $http->get('cate');
+        $keyword = $http->get('keyword');
 
-        if (is_null($cate)) {
+        if (is_null($cate) && is_null($keyword)) {
             $res       = $db->select('`aid`, `title`, `cdate` AS `date`', '`article`', 'ORDER BY `cdate` DESC LIMIT 20');
             $post_list = $res->fetchAll();
-        } else {
+        } else if (is_null($keyword)) {
             $res = $db->select('`cid`', '`category`', 'WHERE `title` = ?', [trim($cate)]);
             $cid = $res->fetch()['cid'];
 
             $res       = $db->select('`aid`, `title`, `cdate` AS `date`', '`article`', 'WHERE `cid` = ? ORDER BY `cdate` DESC LIMIT 20', [$cid]);
+            $post_list = $res->fetchAll();
+        } else if (is_null($cate)) {
+            $res       = $db->select('`aid`, `title`, `cdate` AS `date`', '`article`', "WHERE `title` LIKE '%{$keyword}%' ORDER BY `cdate` DESC LIMIT 20");
             $post_list = $res->fetchAll();
         }
 

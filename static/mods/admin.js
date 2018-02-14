@@ -25,6 +25,19 @@ layui.config({
         }
     }
     skins();
+    $(".flush").on('click', function() {
+        var index = layer.open({
+            type: 3,
+            icon: 1,
+        });
+        $.get('/Api/Cache/flush', function(data) {
+            layer.close(index);
+            if (typeof data == 'string') {
+                data = eval('(' + data + ')');
+            }
+            layer.msg(data.msg);
+        });
+    });
     $(".changePass").on('click', function() {
         layer.prompt({
             title: '修改密码',

@@ -5,8 +5,6 @@ layui.define(['form', 'layer', 'table', 'jquery', 'laydate'], function(exports) 
         ,table = layui.table
         ,laydate = layui.laydate;
 
-    layer.msg('blog');
-
     /////////////
     // 登陆页面 //
     /////////////
