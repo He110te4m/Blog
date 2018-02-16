@@ -17,9 +17,6 @@ class Link extends Controller
 {
     public function manage()
     {
-        $pageParams = [
-        ];
-
-        $this->render('link.html', $pageParams);
+        $this->render('link.html');
     }
 }

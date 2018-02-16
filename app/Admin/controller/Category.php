@@ -17,9 +17,6 @@ class Category extends Controller
 {
     public function manage()
     {
-        $pageParams = [
-        ];
-
-        $this->render('category.html', $pageParams);
+        $this->render('category.html');
     }
 }

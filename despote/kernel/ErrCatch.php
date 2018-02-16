@@ -12,29 +12,21 @@
  */
 namespace despote\kernel;
 
+use \Despote;
 use \despote\base\Service;
 use \Utils;
 
 class ErrCatch extends Service
 {
-    public static function register($debug = true)
+    public static function register()
     {
         $obj = new static;
-        if ($debug) {
-            // 自定义异常处理
-            set_exception_handler([$obj, 'onException']);
-            // 自定义错误处理
-            set_error_handler([$obj, 'onError']);
-            // 自定义致命错误处理
-            register_shutdown_function([$obj, 'onShutdown']);
-        } else {
-            // 自定义异常处理
-            set_exception_handler([$obj, 'noFound']);
-            // 自定义错误处理
-            set_error_handler([$obj, 'noFound']);
-            // 自定义致命错误处理
-            register_shutdown_function([$obj, 'noFound']);
-        }
+        // 自定义异常处理
+        set_exception_handler([$obj, 'onException']);
+        // 自定义错误处理
+        set_error_handler([$obj, 'onError']);
+        // 自定义致命错误处理
+        register_shutdown_function([$obj, 'onShutdown']);
     }
 
     public static function unregister()
@@ -43,25 +35,36 @@ class ErrCatch extends Service
         restore_exception_handler();
     }
 
-    public function noFound()
-    {
-        header('location: /404.html');
-        die;
-    }
-
     /**
      * 异常处理
      * @param  Object $exception 异常对象
      */
     public function onException($exception)
     {
-        // 输出错误信息
-        $this->display('Exception', $exception->getMessage(), $exception->getFile(), $exception->getLine());
+        $debug = Utils::config('error_catch', true);
+        if ($debug) {
+            // 输出错误信息
+            $this->display('Exception', $exception->getMessage(), $exception->getFile(), $exception->getLine());
+        } else {
+            $msg = <<<EOF
+异常：<span style="color: #00F;">{$exception->getMessage()}</span> 发生在 <span style="color: #00F;">{$exception->getFile()}</span> 中的第 <span style="color: #00F;">{$exception->getLine()}</span> 行
+EOF;
+            Despote::logger()->log('warn', $msg);
+        }
     }
 
     public function onError($errno, $errstr, $errfile, $errline)
     {
-        $this->display('Error', $errstr, $errfile, $errline);
+        $debug = Utils::config('error_catch', true);
+        if ($debug) {
+            $this->display('Error', $errstr, $errfile, $errline);
+        } else {
+            $msg = <<<EOF
+错误：<span style="color: #00F;">{$errstr}</span> 发生在 <span style="color: #00F;">{$errfile}</span> 中的第 <span style="color: #00F;">{$errline}</span> 行
+EOF;
+            $level = ($errno == E_USER_ERROR || $errno == E_ERROR) ? 'error' : 'fatal';
+            Despote::logger()->log($level, $msg);
+        }
     }
 
     /**
@@ -74,7 +77,7 @@ class ErrCatch extends Service
         $error = error_get_last();
 
         if ($error) {
-            $this->display('Error', $error['message'], $error['file'], $error['line']);
+            $this->error($error['type'], $error['message'], $error['file'], $error['line']);
         }
     }
 
@@ -95,8 +98,8 @@ class ErrCatch extends Service
 
         // 输出错误信息
         echo <<<EOF
-<div style="font-family: 'Consolas'; width: 100%; border: 1px solid #000;">
-    <h1 style="margin: 0; padding: 5px 10px; font-size: 18px; border-bottom: 1px solid #000;">
+<div style="font-family: 'Consolas'; border: 1px solid #000; z-index: 99999; position: fixed; top: 0; left: 0; right: 0;">
+    <h1 style="margin: 0; padding: 5px 10px; font-size: 18px; border-bottom: 1px solid #000; background-color: #fff;">
         An $type occurred while Despote running.
     </h1>
     <ul style="list-style: none; padding: 5px 10px; margin: 0; font-size: 16px; background-color: #000; color: #fff;">

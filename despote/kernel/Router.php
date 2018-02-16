@@ -103,7 +103,12 @@ class Router extends Service
         $class = '\app\\' . $this->getModule() . '\controller\\' . $this->getCtrl();
 
         // 反射获取 action 的参数并将值存在数组中
-        $obj    = new \ReflectionClass($class);
+        try {
+            $obj = new \ReflectionClass($class);
+        } catch (\Exception $e) {
+            $uri = Despote::request()->getUri();
+            throw new \Exception("{$this->getModule()} 模块中的 {$this->getCtrl()} 控制器中的 {$this->getAction()} 方法调用失败。调用的 URI 为：{$uri}", 1);
+        }
         $func   = $obj->getMethod($this->getAction());
         $params = [];
         foreach ($func->getParameters() as $param) {
