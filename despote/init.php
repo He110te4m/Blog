@@ -32,6 +32,8 @@ define('PATH_BASE', PATH_DESPOTE . 'base' . DS);
 define('PATH_CONF', PATH_DESPOTE . 'conf' . DS);
 // 框架核心文件目录
 define('PATH_KERNEL', PATH_DESPOTE . 'kernel' . DS);
+// 框架扩展文件目录
+define('PATH_EXTEND', PATH_DESPOTE . 'extend' . DS);
 
 // 缓存目录
 define('PATH_CACHE', PATH_DESPOTE . 'runtime' . DS . 'cache' . DS);

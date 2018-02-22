@@ -14,13 +14,13 @@ namespace despote\kernel;
 
 use \Despote;
 use \despote\base\Service;
-use \Utils;
 
 class Tpl extends Service
 {
     /////////////
     // 模板配置 //
     ////////////
+
     // 模板所在模块名
     public $module;
     // // 模板内部变量
@@ -48,7 +48,7 @@ class Tpl extends Service
 
         // 加载模板引擎配置
         $conf = require PATH_CONF . 'tpl.php';
-        $path = PATH_APP . $this->module . DS . 'view' . DS;
+        $path = PATH_APP . $this->module . DS . 'tpl' . DS;
 
         // 使用配置文件初始化属性
         $this->tplDir   = isset($conf['tplDir']) ? $conf['tplDir'] : $path;
@@ -106,9 +106,7 @@ class Tpl extends Service
     private function isCache($tpl, $cache)
     {
         if (!is_readable($tpl)) {
-            echo "我在判断缓存";
-            echo $tpl;
-            $this->showError('模板文件不可读');
+            $this->showError('模板文件 ' . $tpl . ' 不可读');
             return false;
         }
         if ($this->noCache or !is_file($cache)) {
@@ -140,7 +138,7 @@ class Tpl extends Service
      */
     private function writeCache($cache, $content)
     {
-        if (!Utils::createFile($cache) || !is_readable($cache)) {
+        if (!Despote::file()->create($cache) || !is_readable($cache)) {
             $this->showError('生成缓存文件失败，请检查 PHP 权限');
         }
 
@@ -168,7 +166,6 @@ class Tpl extends Service
     {
         // 获取模板
         if (!is_readable($tpl)) {
-            echo "我在编译";
             $this->showError('模板文件不可读');
             return;
         }

@@ -30,12 +30,8 @@ class Index extends Controller
         }
 
         // 网站标题
-        $title = $cache->get('title');
-        if ($title === false) {
-            $res   = $db->select('`val`', '`setting`', 'WHERE `key` = ? LIMIT 1', ['title']);
-            $title = $res->fetch()['val'];
-            $cache->set('title', $title, 28800);
-        }
+        $res   = $db->select('`val`', '`setting`', 'WHERE `key` = ? LIMIT 1', ['title']);
+        $title = $db->fetch($res)['val'];
 
         $pageParams = [
             'title' => $title,

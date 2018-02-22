@@ -93,44 +93,24 @@ class Index extends Controller
         ];
 
         // 网站标题
-        $title = $cache->get('title');
-        if ($title === false) {
-            $res   = $db->select('`val`', '`setting`', 'WHERE `key` = ? LIMIT 1', ['title']);
-            $title = $res->fetch()['val'];
-            $cache->set('title', $title, 28800);
-        }
+        $res   = $db->select('`val`', '`setting`', "WHERE `key` = 'title' LIMIT 1");
+        $title = $db->fetch($res)['val'];
 
         // 博主
-        $name = $cache->get('name');
-        if ($name === false) {
-            $res  = $db->select('`val`', '`setting`', 'WHERE `key` = ? LIMIT 1', ['name']);
-            $name = $res->fetch()['val'];
-            $cache->set('name', $name, 28800);
-        }
+        $res  = $db->select('`val`', '`setting`', "WHERE `key` = 'name' LIMIT 1");
+        $name = $db->fetch($res)['val'];
 
         // 社交链接
-        $socials = $cache->get('socials');
-        if ($socials === false) {
-            $res     = $db->select('`icon`, `url`', '`social`');
-            $socials = $res->fetchAll();
-            $cache->set('socials', $socials, 28800);
-        }
+        $res     = $db->select('`icon`, `url`', '`social`');
+        $socials = $db->fetchAll($res);
 
         // 友情链接
-        $links = $cache->get('links');
-        if ($links === false) {
-            $res   = $db->select('`title`, `url`', '`link`');
-            $links = $res->fetchAll();
-            $cache->set('links', $links, 28800);
-        }
+        $res   = $db->select('`title`, `url`', '`link`');
+        $links = $db->fetchAll($res);
 
         // 所有分类
-        $categories = $cache->get('categories');
-        if ($categories === false) {
-            $res        = $db->select('`title`', '`category`');
-            $categories = $res->fetchAll();
-            $cache->set('categories', $categories, 28800);
-        }
+        $res        = $db->select('`title`', '`category`');
+        $categories = $res->fetchAll();
 
         $layoutParams = [
             'title'      => $title,

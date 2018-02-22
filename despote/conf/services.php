@@ -12,7 +12,7 @@
 
 return [
     // 路由组件
-    'router'  => [
+    'router'    => [
         'class'      => '\despote\kernel\Router',
         // 模块绑定，使用了模块绑定后 URL 中不需要加上模块名，变成：/controller/action
         // 如果设置为 false，当需要给默认模块的 action 传参或者使用非默认模块时，必须加上模块名
@@ -26,7 +26,7 @@ return [
         'action'     => 'index',
     ],
     // MySQL
-    'sql'     => [
+    'sql'       => [
         'class' => '\despote\kernel\db\MySQL',
 
         // // 数据库地址，默认为 localhost
@@ -36,13 +36,13 @@ return [
         // 'port'  => 3306,
 
         // // 数据库用户名，默认为 root
-        // 'usr'   => 'root',
+        // 'usr'   => 'blog',
 
         // // 数据库密码，默认为 root
-        // 'pwd'   => 'root',
+        // 'pwd'   => '520520520',
 
-        // // 数据库名，默认为 test
-        // 'name'  => 'blog',
+        // 数据库名，默认为 test
+        'name'  => 'blog',
 
         // // 是否开启持久连接，默认为 true
         // 'pconn' => true,
@@ -70,23 +70,23 @@ return [
         // // 模拟预处理，默认为 false
         // 'pretreat' => false,
     ],
-    // // 日志记录
-    // 'logger'    => [
-    //     'class' => '\despote\kernel\Logger',
-    //     // 日志存放位置
-    //     'path'  => PATH_LOG,
-    //     // 日志等级
-    //     'limit' => 5,
-    // ],
-    // // cookie 操作类
-    // 'cookie'    => [
-    //     'class' => 'despote\kernel\Cookie',
-    //     // 是否开启安全模式
-    //     'safe'  => true,
-    //     // 加密的密钥
-    //     'key'   => 'Despote',
-    // ],
-    'session' => 'despote\kernel\Session',
+    // 日志记录
+    'logger'    => [
+        'class' => '\despote\kernel\Logger',
+        // 日志存放位置
+        'path'  => PATH_LOG,
+        // 日志等级
+        'limit' => 5,
+    ],
+    // cookie 操作类
+    'cookie'    => [
+        'class' => 'despote\kernel\Cookie',
+        // 是否开启安全模式
+        'safe'  => true,
+        // 加密的密钥
+        'key'   => 'Despote',
+    ],
+    'session'   => 'despote\kernel\Session',
     // // 反向代理设置
     // 'proxy'     => [
     //     'class'  => '\despote\kernel\Proxy',
@@ -94,18 +94,18 @@ return [
     //     'port'   => 8089,
     //     'subDir' => 'Index/home',
     // ],
-    // // 文件上传
-    // 'upload'  => '\despote\kernel\Upload',
-    // // 快速缓存
-    // 'cache'   => 'despote\kernel\cache\FastCache',
-    // // 文件缓存
-    // 'fileCache' => [
-    //     'class' => 'despote\kernel\cache\FileCache',
-    //     // 缓存路径
-    //     'path'  => PATH_CACHE,
-    //     // 缓存 GC 设置
-    //     'gc'    => 50,
-    // ],
+    // 文件上传
+    'upload'    => '\despote\kernel\Upload',
+    // 快速缓存
+    'cache'     => 'despote\kernel\cache\FastCache',
+    // 文件缓存
+    'fileCache' => [
+        'class' => 'despote\kernel\cache\FileCache',
+        // 缓存路径
+        'path'  => PATH_CACHE,
+        // 缓存 GC 设置
+        'gc'    => 50,
+    ],
     // // MemCache
     // 'memCache' => [
     //     'class'   => 'despote\kernel\cache\MemCache',
@@ -130,7 +130,7 @@ return [
     //         ],
     //     ],
     // ],
-    // 'md'       => '\despote\extend\Parsedown',
+    'md'        => '\despote\extend\Parsedown',
     // 'tpl'       => [
     //     'class'  => '\despote\kernel\Tpl',
     //     'module' => 'Home',

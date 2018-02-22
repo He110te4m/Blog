@@ -52,6 +52,7 @@ class Article extends Controller
             $content = gzcompress($content);
 
             try {
+                $db->begin();
                 $res    = $db->select('`cid`', '`category`', 'WHERE `title` = ? LIMIT 1', [$category]);
                 $result = $res->fetch();
 
@@ -65,8 +66,11 @@ class Article extends Controller
                     }
                     $cid = $db->getIns()->lastInsertId();
                 }
-                $db->insert('`article`', '`cid`, `title`, `content`, `cdate`', [$cid, $title, $content, $date]);
+                $db->insert('`article`', '`cid`, `title`, `cdate`', [$cid, $title, $date]);
+                $db->insert('`article_content`', '`content`', [$content]);
+                $db->commit();
             } catch (Exception $e) {
+                $db->back();
                 $code = 2;
             }
         }
@@ -99,17 +103,17 @@ class Article extends Controller
         } else {
             if (is_null($keyword)) {
                 try {
-                    $res  = $db->select('`article`.`aid` AS `id`, `article`.`title`, `category`.`title` AS `category`', '`article`, `category`', "WHERE `article`.`cid` = `category`.`cid` ORDER BY `cdate` DESC LIMIT {$start}, {$limit}");
+                    $res  = $db->select('`aid` AS `id`, `title`, `category`', '`article_view`', "ORDER BY `cdate` DESC LIMIT {$start}, {$limit}");
                     $data = $res->fetchAll();
 
-                    $res   = $db->select('COUNT(1)', '`article`');
+                    $res   = $db->select('COUNT(1)', '`article_view`');
                     $count = $res->fetch()['COUNT(1)'];
                 } catch (Exception $e) {
                     $code = 2;
                 }
             } else {
                 try {
-                    $res  = $db->select('`article`.`aid` AS `id`, `article`.`title`, `category`.`title` AS `category`', '`article`, `category`', "WHERE `article`.`cid` = `category`.`cid` AND `article`.`title` LIKE '%{$keyword}%' ORDER BY `cdate` DESC LIMIT {$start}, {$limit}");
+                    $res  = $db->select('`aid` AS `id`, `title`, `category`', '`article_content`', "WHERE `title` LIKE '%{$keyword}%' ORDER BY `cdate` DESC LIMIT {$start}, {$limit}");
                     $data = $res->fetchAll();
 
                     $res   = $db->select('COUNT(1)', '`article`', "WHERE `title` LIKE '%{$keyword}%'");
@@ -147,16 +151,24 @@ class Article extends Controller
         } else {
             if (is_null($list)) {
                 try {
+                    $db->begin();
                     $db->delete('`article`', 'WHERE `aid` = ?', [$id]);
+                    $db->delete('`article_content`', 'WHERE `aid` = ?', [$id]);
+                    $db->commit();
                 } catch (Exception $e) {
+                    $db->back();
                     $code = 2;
                 }
             } else {
                 $ids = json_decode($list, true);
                 $ids = '(' . implode(',', $ids) . ')';
                 try {
+                    $db->begin();
                     $db->delete('`article`', "WHERE `aid` IN {$ids}");
+                    $db->delete('`article_content`', "WHERE `aid` IN {$ids}");
+                    $db->commit();
                 } catch (Exception $e) {
+                    $db->back();
                     $code = 2;
                 }
             }
@@ -192,11 +204,15 @@ class Article extends Controller
             $content = gzcompress($content);
 
             try {
+                $db->begin();
                 $res = $db->select('`cid`', '`category`', 'WHERE `title` = ? LIMIT 1', [$category]);
                 $cid = $res->fetch()['cid'];
 
-                $db->update('`article`', '`cid` = ?, `title` = ?, `content` = ?, `cdate` = ?', 'WHERE `aid` = ?', [$cid, $title, $content, $date, $id]);
+                $db->update('`article`', '`cid` = ?, `title` = ?, `cdate` = ?', 'WHERE `aid` = ?', [$cid, $title, $date, $id]);
+                $db->update('`article_content`', '`content` = ?', 'WHERE `aid` = ?', [$content, $id]);
+                $db->commit();
             } catch (Exception $e) {
+                $db->back();
                 $code = 2;
             }
         }

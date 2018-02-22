@@ -21,12 +21,8 @@ class Article extends Controller
         $db    = Despote::sql();
         $cache = Despote::fileCache();
 
-        $categories = $cache->get('categories');
-        if ($categories === false) {
-            $res        = $db->select('`title`', '`category`');
-            $categories = $res->fetchAll();
-            $cache->set('categories', $categories, 28800);
-        }
+        $res        = $db->select('`title`', '`category`');
+        $categories = $db->fetchAll($res);
 
         $pageParams = [
             'categories' => $categories,
@@ -53,18 +49,16 @@ class Article extends Controller
             die;
         }
 
-        $res               = $db->select('`aid` AS `id`, `article`.`title`, `category`.`title` AS `category`, `content`, `cdate` AS `date`', '`article`, `category`', 'WHERE `aid` = ? AND `article`.`cid` = `category`.`cid` LIMIT 1', [$id]);
-        $result            = $res->fetch();
+        $res    = $db->select('`aid` AS `id`, `title`, `category`, `content`, `cdate` AS `date`', '`article_view`', 'WHERE `aid` = ? LIMIT 1', [$id]);
+        $result = $res->fetch();
+
         $result['content'] = gzuncompress($result['content']);
 
-        $categories = $cache->get('categories');
-        if ($categories === false) {
-            $res        = $db->select('`title`', '`category`');
-            $categories = $res->fetchAll();
-            $cache->set('categories', $categories, 28800);
-        }
+        $res        = $db->select('`title`', '`category`');
+        $categories = $db->fetchAll($res);
 
-        $pageParams               = $result;
+        $pageParams = $result;
+
         $pageParams['categories'] = $categories;
 
         $this->render('article-edit.html', $pageParams);

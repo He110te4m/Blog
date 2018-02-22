@@ -34,7 +34,7 @@ class User extends Controller
             try {
                 $res  = Despote::sql()->select('`val`', '`setting`', 'WHERE `key` = ? LIMIT 1', ['key']);
                 $pass = $res->fetch()['val'];
-                $pass = floor(($time - $pass) / 30);
+                $pass = md5(floor(($time - $pass) / 30));
                 if ($pass == $key) {
                     $code = 0;
                     Despote::cookie()->set('sid', md5('He110' . $time), 86400);

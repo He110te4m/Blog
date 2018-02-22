@@ -1,5 +1,5 @@
 ﻿# Host: localhost  (Version: 5.5.53)
-# Date: 2018-02-14 12:46:23
+# Date: 2018-02-22 19:31:13
 # Generator: MySQL-Front 5.3  (Build 4.234)
 
 /*!40101 SET NAMES utf8 */;
@@ -12,10 +12,19 @@ CREATE TABLE `article` (
   `aid` int(11) NOT NULL AUTO_INCREMENT,
   `cid` int(11) DEFAULT NULL,
   `title` varchar(50) DEFAULT NULL COMMENT '标题',
-  `content` blob COMMENT '内容',
   `cdate` int(11) DEFAULT NULL COMMENT '发布时间',
   PRIMARY KEY (`aid`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='文章表';
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COMMENT='文章表';
+
+#
+# Structure for table "article_content"
+#
+
+CREATE TABLE `article_content` (
+  `aid` int(11) NOT NULL AUTO_INCREMENT,
+  `content` blob COMMENT '内容',
+  PRIMARY KEY (`aid`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COMMENT='文章表';
 
 #
 # Structure for table "category"
@@ -59,3 +68,10 @@ CREATE TABLE `social` (
   `url` text COMMENT '链接地址',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='社交链接表';
+
+#
+# Structure for table "article_view"
+#
+
+CREATE VIEW `article_view` AS 
+  select `a`.`aid` AS `aid`,`a`.`cid` AS `cid`,`a`.`title` AS `title`,`a`.`cdate` AS `cdate`,`b`.`content` AS `content`,`c`.`title` AS `category` from ((`article` `a` left join `article_content` `b` on((`a`.`aid` = `b`.`aid`))) left join `category` `c` on((`a`.`cid` = `c`.`cid`)));

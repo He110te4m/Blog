@@ -27,7 +27,7 @@ class Router extends Service
     protected $action = 'index';
     // 是否进行模块绑定，绑定后只能使用设置好的模块进行访问，也就是单模块模式，路径直接填写：控制器/方法，即可
     // 如果不进行绑定，需要填写完整的路径：模块/控制器/方法
-    protected $bindModule = true;
+    protected $bindModule = false;
     // 内置默认域名绑定设置
     protected $host = [];
     // 现在的路由信息

@@ -35,7 +35,7 @@ html { font-size: 10px; }
 .content { overflow: auto; }
 .post-list { position: absolute; top: 0; right: 0; bottom: 4rem; left: 0; padding: 1rem 2rem; overflow: auto; }
 .post-list .post { position: relative; width: 100%; height: 3.2rem; }
-.post-list .post-title { font-size: 1.6rem; position: absolute; top: 50%; right: 6rem; left: 0; display: inline-block; overflow: hidden; box-sizing: border-box; -webkit-transform: translate(0, -50%); -ms-transform: translate(0, -50%); -o-transform: translate(0, -50%); transform: translate(0, -50%); text-overflow: ellipsis; -ms-text-overflow: ellipsis; }
+.post-list .post-title { font-size: 1.6rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; position: absolute; top: 50%; right: 6rem; left: 0; display: inline-block; overflow: hidden; box-sizing: border-box; -webkit-transform: translate(0, -50%); -ms-transform: translate(0, -50%); -o-transform: translate(0, -50%); transform: translate(0, -50%); text-overflow: ellipsis; -ms-text-overflow: ellipsis; }
 .post-list .post-date { font-size: 1.2rem; position: absolute; top: 50%; right: 0; display: inline-block; box-sizing: border-box; width: 6rem; -webkit-transform: translate(0, -50%); -ms-transform: translate(0, -50%); -o-transform: translate(0, -50%); transform: translate(0, -50%); text-align: right; }
 .post-list-tools { position: absolute; right: 0; bottom: 0; left: 0; height: 4rem; }
 .post-list-tools .search { position: absolute; top: 50%; right: 37rem; left: 2rem; height: 100%; -webkit-transform: translate(0, -50%); -ms-transform: translate(0, -50%); -o-transform: translate(0, -50%); transform: translate(0, -50%); }
