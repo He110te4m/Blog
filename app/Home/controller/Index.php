@@ -77,7 +77,7 @@ class Index extends Controller
             $prev = '<li><a href="' . $params . '&page=' . ($page - 1) . '"><</a></li>';
         }
 
-        if ($pageCount == $page || $pageCount < 3) {
+        if ($pageCount == $page || $pageCount < 2) {
             $next = '<li><a class="disable">></a></li>';
         } else {
             $next = '<li><a href="' . $params . '&page=' . ($page + 1) . '">></a></li>';
