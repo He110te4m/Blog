@@ -15,22 +15,13 @@ use \despote\base\Controller;
 
 class Cache extends Controller
 {
-    private static $map = [
-        0 => '刷新缓存成功',
-        1 => '请求失败',
-    ];
-
     public function flush()
     {
+        $code = 0;
         \Despote::fileCache()->flush();
 
-        $pageParams = [
-            'data' => [
-                'code' => 0,
-                'msg'  => '刷新缓存成功',
-            ],
-        ];
+        $data = $this->getModel()->getData($code);
 
-        $this->render('api.php', $pageParams);
+        $this->render('api.php', ['data' => $data]);
     }
 }

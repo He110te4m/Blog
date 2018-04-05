@@ -13,22 +13,12 @@ namespace app\Api\controller;
 
 use \Despote;
 use \despote\base\Controller;
-use \Exception;
 
 class Category extends Controller
 {
-    private static $map = [
-        0 => '成功',
-        1 => '请求失败',
-        2 => '数据库操作出错',
-        3 => '分类已存在',
-    ];
-
     public function init()
     {
-        $sid1 = Despote::cookie()->get('sid');
-        $sid2 = Despote::fileCache()->get('sid');
-        if ($sid2 === false || $sid1 != $sid2) {
+        if ($this->getModel()->check() === false) {
             header('location: /404.html');
             die;
         }
@@ -36,147 +26,99 @@ class Category extends Controller
 
     public function add()
     {
-        $db   = Despote::sql();
-        $http = Despote::request();
-
-        $code = 0;
+        $common = $this->getModel();
+        $http   = Despote::request();
 
         $title = $http->post('title');
 
-        if (is_null($title)) {
-            $code = 1;
-        } else {
-            try {
-                $res    = $db->select('1', '`category`', 'WHERE `title` = ?', [$title]);
-                $result = $res->fetch();
-                if ($result) {
-                    $code = 3;
-                } else {
-                    $db->insert('`category`', '`title`', [$title]);
-                }
-            } catch (Exception $e) {
-                $code = 2;
+        if ($common->verify($title)) {
+            list($code, $res) = $common->getRecord('1', '`category`', 'WHERE `title` = ?', [$title]);
+
+            $result = $res->fetch();
+            if ($result) {
+                $code = 6;
+            } else {
+                $code = $common->addRecord('`category`', '`title`', [$title]);
             }
+        } else {
+            $code = 1;
         }
 
-        $pageParams = [
-            'data' => [
-                'code' => $code,
-                'msg'  => self::$map[$code],
-            ],
-        ];
+        $data = $common->getData($code);
 
-        $this->render('api.php', $pageParams);
+        $this->render('api.php', ['data' => $data]);
     }
 
     public function all()
     {
+        $common = $this->getModel();
+        $http   = Despote::request();
 
-        $db   = Despote::sql();
-        $http = Despote::request();
-
-        $code  = 0;
-        $data  = [];
-        $count = 0;
         $page  = $http->get('page');
         $limit = $http->get('limit');
+
+        $count = 0;
+        $list  = [];
         $start = ($page - 1) * $limit;
 
-        if (is_null($page) || is_null($limit)) {
-            $code = 1;
-        } else {
-            try {
-                $res  = $db->select('`cid` AS `id`, `title`', '`category`', "ORDER BY `id` LIMIT {$start}, {$limit}");
-                $data = $res->fetchAll();
+        if ($common->verify($page) && $common->verify($limit)) {
+            list($code, $res) = $common->getRecord('`cid` AS `id`, `title`', '`category`', "ORDER BY `id` LIMIT {$start}, {$limit}");
 
-                $res   = $db->select('COUNT(1)', '`category`');
-                $count = $res->fetch()['COUNT(1)'];
-            } catch (Exception $e) {
-                $code = 2;
-            }
+            $list  = $res->fetchAll();
+            $count = $common->getCount('`category`');
+        } else {
+            $code = 1;
         }
 
-        $pageParams = [
-            'data' => [
-                'code'  => $code,
-                'msg'   => self::$map[$code],
-                'count' => $count,
-                'data'  => $data,
-            ],
-        ];
+        $data = $common->getData($code, ['count' => $count, 'data' => $list]);
 
-        $this->render('api.php', $pageParams);
+        $this->render('api.php', ['data' => $data]);
     }
 
     public function del()
     {
-        $db   = Despote::sql();
-        $http = Despote::request();
-
-        $code = 0;
+        $common = $this->getModel();
+        $http   = Despote::request();
 
         $id   = $http->post('id');
         $list = $http->post('list');
 
-        if (is_null($id) && is_null($list)) {
-            $code = 1;
-        } else {
-            if (is_null($list)) {
-                try {
-                    $db->delete('`category`', 'WHERE `cid` = ?', [$id]);
-                } catch (Exception $e) {
-                    $code = 2;
-                }
-            } else {
+        if ($common->verify($id) || $common->verify($list)) {
+            if ($common->verify($list)) {
                 $ids = json_decode($list, true);
                 $ids = '(' . implode(',', $ids) . ')';
-                try {
-                    $db->delete('`category`', "WHERE `cid` IN {$ids}");
-                } catch (Exception $e) {
-                    $code = 2;
-                }
+
+                $code = $common->delRecord('`category`', "WHERE `cid` IN {$ids}");
+            } else {
+                $code = $common->delRecord('`category`', 'WHERE `cid` = ?', [$id]);
             }
+        } else {
+            $code = 1;
         }
 
-        $pageParams = [
-            'data' => [
-                'code' => $code,
-                'msg'  => self::$map[$code],
-            ],
-        ];
+        $data = $common->getData($code);
 
-        $this->render('api.php', $pageParams);
+        $this->render('api.php', ['data' => $data]);
     }
 
     public function edit()
     {
-        $db   = Despote::sql();
-        $http = Despote::request();
-
-        $code = 0;
+        $common = $this->getModel();
+        $http   = Despote::request();
 
         // 获取数据
         $id    = $http->post('id');
         $field = $http->post('field');
         $value = $http->post('value');
 
-        if (is_null($id) || is_null($field) || is_null($value)) {
-            $code = 1;
+        if ($common->verify($id) && $common->verify($field) && $common->verify($value)) {
+            $code = $common->updateRecord('`category`', "`{$field}` = ?", 'WHERE `cid` = ?', [$value, $id]);
         } else {
-            try {
-                $db->update('`category`', "`{$field}` = ?", 'WHERE `cid` = ?', [$value, $id]);
-            } catch (Exception $e) {
-                $code = 2;
-            }
+            $code = 1;
         }
 
-        $pageParams = [
-            'data' => [
-                'code' => $code,
-                'msg'  => self::$map[$code],
-            ],
-        ];
+        $data = $common->getData($code);
 
-        $this->render('api.php', $pageParams);
+        $this->render('api.php', ['data' => $data]);
     }
 }

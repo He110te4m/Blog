@@ -17,12 +17,6 @@ use \Exception;
 
 class Article extends Controller
 {
-    private static $map = [
-        0 => '成功',
-        1 => '请求失败',
-        2 => '数据库操作出错',
-    ];
-
     public function init()
     {
         if ($this->getModel()->check() === false) {
@@ -87,7 +81,10 @@ class Article extends Controller
         $page    = $http->get('page');
         $limit   = $http->get('limit');
         $keyword = $http->get('keyword');
-        $start   = ($page - 1) * $limit;
+
+        $count = 0;
+        $list  = [];
+        $start = ($page - 1) * $limit;
 
         if ($common->verify($page) || $common->verify($limit)) {
             if ($common->verify($keyword)) {
