@@ -25,9 +25,7 @@ class Article extends Controller
 
     public function init()
     {
-        $sid1 = Despote::cookie()->get('sid');
-        $sid2 = Despote::fileCache()->get('sid');
-        if ($sid2 === false || $sid1 != $sid2) {
+        if ($this->getModel()->check() === false) {
             header('location: /404.html');
             die;
         }
@@ -35,8 +33,9 @@ class Article extends Controller
 
     public function add()
     {
-        $db   = Despote::sql();
-        $http = Despote::request();
+        $db     = Despote::sql();
+        $common = $this->getModel();
+        $http   = Despote::request();
 
         $code = 0;
 
@@ -45,9 +44,7 @@ class Article extends Controller
         $category = $http->post('category');
         $content  = $http->post('content');
 
-        if (is_null($title) || is_null($date) || is_null($category) || is_null($content)) {
-            $code = 1;
-        } else {
+        if ($common->verify($title) && $common->verify($date) && $common->verify($category) && $common->verify($content)) {
             $date    = strtotime($date);
             $content = gzcompress($content);
 
@@ -73,121 +70,81 @@ class Article extends Controller
                 $db->back();
                 $code = 2;
             }
+        } else {
+            $code = 1;
         }
 
-        $pageParams = [
-            'data' => [
-                'code' => $code,
-                'msg'  => self::$map[$code],
-            ],
-        ];
+        $data = $common->getData($code);
 
-        $this->render('api.php', $pageParams);
+        $this->render('api.php', ['data' => $data]);
     }
 
     public function all()
     {
-        $db   = Despote::sql();
-        $http = Despote::request();
+        $common = $this->getModel();
+        $http   = Despote::request();
 
-        $code    = 0;
-        $data    = [];
-        $count   = 0;
         $page    = $http->get('page');
         $limit   = $http->get('limit');
         $keyword = $http->get('keyword');
         $start   = ($page - 1) * $limit;
 
-        if (is_null($page) || is_null($limit)) {
-            $code = 1;
-        } else {
-            if (is_null($keyword)) {
-                try {
-                    $res  = $db->select('`aid` AS `id`, `title`, `category`', '`article_view`', "ORDER BY `cdate` DESC LIMIT {$start}, {$limit}");
-                    $data = $res->fetchAll();
+        if ($common->verify($page) || $common->verify($limit)) {
+            if ($common->verify($keyword)) {
+                list($code, $res) = $common->getRecord('`aid` AS `id`, `title`, `category`', '`article_view`', "WHERE `title` LIKE '%{$keyword}%' ORDER BY `cdate` DESC LIMIT {$start}, {$limit}");
 
-                    $res   = $db->select('COUNT(1)', '`article_view`');
-                    $count = $res->fetch()['COUNT(1)'];
-                } catch (Exception $e) {
-                    $code = 2;
-                }
+                $list  = $res->fetchAll();
+                $count = $common->getCount('`article`', "WHERE `title` LIKE '%{$keyword}%'");
             } else {
-                try {
-                    $res  = $db->select('`aid` AS `id`, `title`, `category`', '`article_content`', "WHERE `title` LIKE '%{$keyword}%' ORDER BY `cdate` DESC LIMIT {$start}, {$limit}");
-                    $data = $res->fetchAll();
+                list($code, $res) = $common->getRecord('`aid` AS `id`, `title`, `category`', '`article_view`', "ORDER BY `cdate` DESC LIMIT {$start}, {$limit}");
 
-                    $res   = $db->select('COUNT(1)', '`article`', "WHERE `title` LIKE '%{$keyword}%'");
-                    $count = $res->fetch()['COUNT(1)'];
-                } catch (Exception $e) {
-                    $code = 2;
-                }
+                $list  = $res->fetchAll();
+                $count = $common->getCount('`article`');
             }
+        } else {
+            $code = 1;
         }
 
-        $pageParams = [
-            'data' => [
-                'code'  => $code,
-                'msg'   => self::$map[$code],
-                'count' => $count,
-                'data'  => $data,
-            ],
-        ];
+        $data = $common->getData($code, ['count' => $count, 'data' => $list]);
 
-        $this->render('api.php', $pageParams);
+        $this->render('api.php', ['data' => $data]);
     }
 
     public function del()
     {
-        $db   = Despote::sql();
-        $http = Despote::request();
+        $common = $this->getModel();
+        $http   = Despote::request();
 
         $code = 0;
 
         $id   = $http->post('id');
         $list = $http->post('list');
 
-        if (is_null($id) && is_null($list)) {
-            $code = 1;
-        } else {
-            if (is_null($list)) {
-                try {
-                    $db->begin();
-                    $db->delete('`article`', 'WHERE `aid` = ?', [$id]);
-                    $db->delete('`article_content`', 'WHERE `aid` = ?', [$id]);
-                    $db->commit();
-                } catch (Exception $e) {
-                    $db->back();
-                    $code = 2;
-                }
-            } else {
+        if ($common->verify($id) || $common->verify($list)) {
+            if ($common->verify($list)) {
                 $ids = json_decode($list, true);
                 $ids = '(' . implode(',', $ids) . ')';
-                try {
-                    $db->begin();
-                    $db->delete('`article`', "WHERE `aid` IN {$ids}");
-                    $db->delete('`article_content`', "WHERE `aid` IN {$ids}");
-                    $db->commit();
-                } catch (Exception $e) {
-                    $db->back();
-                    $code = 2;
-                }
+
+                $code = $common->delRecord('`article`', "WHERE `aid` IN {$ids}");
+                $code = $common->delRecord('`article_content`', "WHERE `aid` IN {$ids}");
+            } else {
+                $code = $common->delRecord('`article`', 'WHERE `aid` = ?', [$id]);
+                $code = $common->delRecord('`article_content`', 'WHERE `aid` = ?', [$id]);
             }
+        } else {
+            $code = 1;
         }
 
-        $pageParams = [
-            'data' => [
-                'code' => $code,
-                'msg'  => self::$map[$code],
-            ],
-        ];
+        $data = $common->getData($code);
 
-        $this->render('api.php', $pageParams);
+        $this->render('api.php', ['data' => $data]);
     }
 
     public function edit()
     {
-        $db   = Despote::sql();
-        $http = Despote::request();
+        $db     = Despote::sql();
+        $common = $this->getModel();
+        $http   = Despote::request();
 
         $code = 0;
 
@@ -197,9 +154,7 @@ class Article extends Controller
         $category = $http->post('category');
         $content  = $http->post('content');
 
-        if (is_null($id) || is_null($title) || is_null($date) || is_null($category) || is_null($content)) {
-            $code = 1;
-        } else {
+        if ($common->verify($id) && $common->verify($title) && $common->verify($date) && $common->verify($category) && $common->verify($content)) {
             $date    = strtotime($date);
             $content = gzcompress($content);
 
@@ -215,15 +170,12 @@ class Article extends Controller
                 $db->back();
                 $code = 2;
             }
+        } else {
+            $code = 1;
         }
 
-        $pageParams = [
-            'data' => [
-                'code' => $code,
-                'msg'  => self::$map[$code],
-            ],
-        ];
+        $data = $common->getData($code);
 
-        $this->render('api.php', $pageParams);
+        $this->render('api.php', ['data' => $data]);
     }
 }
