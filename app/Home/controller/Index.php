@@ -26,11 +26,11 @@ class Index extends Controller
         $page    = $http->get('page', 1);
         $keyword = $http->get('keyword');
 
-        $start  = ($page - 1) * 20;
+        $start  = ($page - 1) * 15;
         $params = '?';
 
         if (is_null($cate) && is_null($keyword)) {
-            $res       = $db->select('`aid`, `title`, `cdate` AS `date`', '`article`', "ORDER BY `cdate` DESC LIMIT {$start}, 20");
+            $res       = $db->select('`aid`, `title`, `cdate` AS `date`', '`article`', "ORDER BY `cdate` DESC LIMIT {$start}, 15");
             $post_list = $res->fetchAll();
 
             $res   = $db->select('COUNT(1)', '`article`');
@@ -39,7 +39,7 @@ class Index extends Controller
             $res = $db->select('`cid`', '`category`', 'WHERE `title` = ?', [trim($cate)]);
             $cid = $res->fetch()['cid'];
 
-            $res       = $db->select('`aid`, `title`, `cdate` AS `date`', '`article`', "WHERE `cid` = ? ORDER BY `cdate` DESC LIMIT {$start}, 20", [$cid]);
+            $res       = $db->select('`aid`, `title`, `cdate` AS `date`', '`article`', "WHERE `cid` = ? ORDER BY `cdate` DESC LIMIT {$start}, 15", [$cid]);
             $post_list = $res->fetchAll();
 
             $res   = $db->select('COUNT(1)', '`article`', 'WHERE `cid` = ?', [$cid]);
@@ -47,7 +47,7 @@ class Index extends Controller
 
             $params .= '&cate=' . $cate;
         } else if (is_null($cate)) {
-            $res       = $db->select('`aid`, `title`, `cdate` AS `date`', '`article`', "WHERE `title` LIKE '%{$keyword}%' ORDER BY `cdate` DESC LIMIT {$start}, 20");
+            $res       = $db->select('`aid`, `title`, `cdate` AS `date`', '`article`', "WHERE `title` LIKE '%{$keyword}%' ORDER BY `cdate` DESC LIMIT {$start}, 15");
             $post_list = $res->fetchAll();
 
             $res   = $db->select('COUNT(1)', '`article`', "WHERE `title` LIKE '%{$keyword}%'");

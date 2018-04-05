@@ -77,7 +77,7 @@ EOF;
         $error = error_get_last();
 
         if ($error) {
-            $this->error($error['type'], $error['message'], $error['file'], $error['line']);
+            $this->display('error', $error['message'], $error['file'], $error['line']);
         }
     }
 

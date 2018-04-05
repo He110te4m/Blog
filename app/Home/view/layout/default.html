@@ -49,10 +49,10 @@
     </aside>
 
     <header class="header nav">
-        <ul class="navbar">
-            <li><a href="/">首页</a></li>
+        <ul class="navbar center-y">
+            <li><a class="delay" href="/">首页</a></li>
             <?php foreach ($categories as $item): ?>
-                <li><a href="/?cate=<?=$item['title'];?>"><?=$item['title'];?></a></li>
+                <li><a class="delay" href="/?cate=<?=$item['title'];?>"><?=$item['title'];?></a></li>
             <?php endforeach;?>
         </ul>
     </header>
@@ -62,7 +62,7 @@
     </main>
 
     <footer class="footer layui-bg-gray">
-        <section class="copyright">Copyright © 2017 由 <a href="https://www.github.com/he110te4m/Despote" target="_blank">Despote</a> Framework 强力驱动. <a href="/">He110</a> All rights reserved.</section>
+        <section class="copyright center-y">Copyright © 2017 由 <a href="https://www.github.com/he110te4m/Despote" target="_blank">Despote</a> Framework 强力驱动. <a href="/">He110</a> All rights reserved.</section>
     </footer>
 
     <script src="/static/lib/layui/layui.js"></script>

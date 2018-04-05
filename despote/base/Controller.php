@@ -16,11 +16,7 @@ namespace despote\base;
 class Controller extends Service
 {
     protected $view;
-
-    protected function init()
-    {
-        // 注册 beforeAction 和 afterAction 事件
-    }
+    protected $model;
 
     private function getView()
     {
@@ -28,6 +24,13 @@ class Controller extends Service
         is_null($this->view) && $this->view = new View();
 
         return $this->view;
+    }
+
+    protected function getModel($modelName = 'common')
+    {
+        is_null($this->model) && $this->model = new Model();
+
+        return $this->model->getModel($modelName);
     }
 
     protected function assign($key, $value)

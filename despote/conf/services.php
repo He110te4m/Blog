@@ -11,22 +11,22 @@
  */
 
 return [
-    // 路由组件
-    'router'    => [
-        'class'      => '\despote\kernel\Router',
-        // 模块绑定，使用了模块绑定后 URL 中不需要加上模块名，变成：/controller/action
-        // 如果设置为 false，当需要给默认模块的 action 传参或者使用非默认模块时，必须加上模块名
-        // 本参数默认为 true
-        'bindModule' => false,
-        // 默认模块
-        'module'     => 'Home',
-        // 默认控制器
-        'controller' => 'Index',
-        // 默认 Action
-        'action'     => 'index',
-    ],
+    // // 路由组件
+    // 'router'    => [
+    //     'class'      => '\despote\kernel\Router',
+    //     // 模块绑定，使用了模块绑定后 URL 中不需要加上模块名，变成：/controller/action
+    //     // 如果设置为 false，当需要给默认模块的 action 传参或者使用非默认模块时，必须加上模块名
+    //     // 本参数默认为 false
+    //     'bindModule' => false,
+    //     // 默认模块
+    //     'module'     => 'Home',
+    //     // 默认控制器
+    //     'controller' => 'Index',
+    //     // 默认 Action
+    //     'action'     => 'index',
+    // ],
     // MySQL
-    'sql'       => [
+    'sql'  => [
         'class' => '\despote\kernel\db\MySQL',
 
         // // 数据库地址，默认为 localhost
@@ -36,10 +36,13 @@ return [
         // 'port'  => 3306,
 
         // // 数据库用户名，默认为 root
-        // 'usr'   => 'blog',
+        // 'usr'   => 'blog_he110_info',
 
         // // 数据库密码，默认为 root
         // 'pwd'   => '520520520',
+
+        // // 数据库名，默认为 test
+        // 'name'  => 'blog_he110_info',
 
         // 数据库名，默认为 test
         'name'  => 'blog',
@@ -70,23 +73,24 @@ return [
         // // 模拟预处理，默认为 false
         // 'pretreat' => false,
     ],
-    // 日志记录
-    'logger'    => [
-        'class' => '\despote\kernel\Logger',
-        // 日志存放位置
-        'path'  => PATH_LOG,
-        // 日志等级
-        'limit' => 5,
-    ],
-    // cookie 操作类
-    'cookie'    => [
-        'class' => 'despote\kernel\Cookie',
-        // 是否开启安全模式
-        'safe'  => true,
-        // 加密的密钥
-        'key'   => 'Despote',
-    ],
-    'session'   => 'despote\kernel\Session',
+    // // 日志记录
+    // 'logger'    => [
+    //     'class' => '\despote\kernel\Logger',
+    //     // 日志存放位置
+    //     'path'  => PATH_LOG,
+    //     // 日志等级
+    //     'limit' => 5,
+    // ],
+    // // cookie 操作类
+    // 'cookie'    => [
+    //     'class' => 'despote\kernel\Cookie',
+    //     // 是否开启安全模式
+    //     'safe'  => true,
+    //     // 加密的密钥
+    //     'key'   => 'Despote',
+    // ],
+    // // session 操作类
+    // 'session' => 'despote\kernel\Session',
     // // 反向代理设置
     // 'proxy'     => [
     //     'class'  => '\despote\kernel\Proxy',
@@ -94,18 +98,18 @@ return [
     //     'port'   => 8089,
     //     'subDir' => 'Index/home',
     // ],
-    // 文件上传
-    'upload'    => '\despote\kernel\Upload',
-    // 快速缓存
-    'cache'     => 'despote\kernel\cache\FastCache',
-    // 文件缓存
-    'fileCache' => [
-        'class' => 'despote\kernel\cache\FileCache',
-        // 缓存路径
-        'path'  => PATH_CACHE,
-        // 缓存 GC 设置
-        'gc'    => 50,
-    ],
+    // // 文件上传
+    // 'upload'  => '\despote\kernel\Upload',
+    // // 快速缓存
+    // 'cache'   => 'despote\kernel\cache\FastCache',
+    // // 文件缓存
+    // 'fileCache' => [
+    //     'class' => 'despote\kernel\cache\FileCache',
+    //     // 缓存路径
+    //     'path'  => PATH_CACHE,
+    //     // 缓存 GC 设置
+    //     'gc'    => 50,
+    // ],
     // // MemCache
     // 'memCache' => [
     //     'class'   => 'despote\kernel\cache\MemCache',
@@ -130,7 +134,7 @@ return [
     //         ],
     //     ],
     // ],
-    'md'        => '\despote\extend\Parsedown',
+    'md'   => '\despote\extend\Parsedown',
     // 'tpl'       => [
     //     'class'  => '\despote\kernel\Tpl',
     //     'module' => 'Home',
@@ -140,4 +144,29 @@ return [
     //     // 加密的密钥
     //     'secret' => 'Despote',
     // ],
+    'mail' => [
+        'class' => '\despote\extend\Mailer',
+        // // 使用的安全协议
+        // 'SMTPSecure' => 'ssl',
+        // // 邮件的字符编码
+        // 'CharSet'    => 'UTF-8',
+        // // 是否进行安全认证
+        // 'SMTPAuth'   => true,
+        // // 邮件服务器端口
+        // 'Port'  => 465,
+        // // 邮件服务器地址
+        // 'Host'       => 'smtp.exmail.qq.com',
+        // // 邮件服务器登陆的用户名
+        // 'User'  => 'i@he110.top',
+        // // 邮件服务器登陆的密码
+        // 'Pwd'   => 'test',
+        // // 发送人邮箱
+        // 'Form'       => 'i@he110.top',
+        // // 发送人姓名
+        // 'FormName'   => 'He110',
+        // // 回复邮箱
+        // 'ReplyTo'    => 'i@he110.top',
+        // // 回复姓名
+        // 'ReplyName'  => 'He110',
+    ],
 ];
