@@ -18,60 +18,60 @@ class Index extends Controller
 {
     public function index()
     {
-        $db    = Despote::sql();
-        $http  = Despote::request();
-        $cache = Despote::fileCache();
+        $db     = Despote::sql();
+        $common = $this->getModel();
+        $http   = Despote::request();
+        $cache  = Despote::fileCache();
 
         $cate    = $http->get('cate');
         $page    = $http->get('page', 1);
         $keyword = $http->get('keyword');
 
-        $start  = ($page - 1) * 15;
+        $limit  = 15;
         $params = '?';
+        $start  = ($page - 1) * $limit;
 
-        if (is_null($cate) && is_null($keyword)) {
-            $res       = $db->select('`aid`, `title`, `cdate` AS `date`', '`article`', "ORDER BY `cdate` DESC LIMIT {$start}, 15");
-            $post_list = $res->fetchAll();
+        if ($common->verify($cate) || $common->verify($keyword)) {
+            if ($common->verify($cate)) {
+                // 获取分类 id
+                $res = $common->getRecord('`cid`', '`category`', 'WHERE `title` = ?', [trim($cate)]);
+                $cid = $res->fetch()['cid'];
 
-            $res   = $db->select('COUNT(1)', '`article`');
-            $count = $res->fetch()['COUNT(1)'];
-        } else if (is_null($keyword)) {
-            $res = $db->select('`cid`', '`category`', 'WHERE `title` = ?', [trim($cate)]);
-            $cid = $res->fetch()['cid'];
+                // 获取分类下的文章列表
+                $res       = $common->getRecord('`aid`, `title`, `cdate` AS `date`', '`article`', "WHERE `cid` = ? ORDER BY `cdate` DESC LIMIT {$start}, {$limit}", [$cid]);
+                $post_list = $res->fetchAll();
 
-            $res       = $db->select('`aid`, `title`, `cdate` AS `date`', '`article`', "WHERE `cid` = ? ORDER BY `cdate` DESC LIMIT {$start}, 15", [$cid]);
-            $post_list = $res->fetchAll();
+                // 获取分类下文章总数
+                $count = $common->getCount('`article`', 'WHERE `cid` = ?', [$cid]);
 
-            $res   = $db->select('COUNT(1)', '`article`', 'WHERE `cid` = ?', [$cid]);
-            $count = $res->fetch()['COUNT(1)'];
-
-            $params .= '&cate=' . $cate;
-        } else if (is_null($cate)) {
-            $res       = $db->select('`aid`, `title`, `cdate` AS `date`', '`article`', "WHERE `title` LIKE '%{$keyword}%' ORDER BY `cdate` DESC LIMIT {$start}, 15");
-            $post_list = $res->fetchAll();
-
-            $res   = $db->select('COUNT(1)', '`article`', "WHERE `title` LIKE '%{$keyword}%'");
-            $count = $res->fetch()['COUNT(1)'];
-
-            $params .= '&keyword=' . $keyword;
-        }
-
-        $units = ['年', '月', '天', '小时', '分钟', '秒'];
-        $vals  = [31104000, 2592000, 86400, 3600, 60, 1];
-
-        foreach ($post_list as $index => $post) {
-            foreach ($vals as $i => $item) {
-                $num = floor((time() - $post['date']) / $item);
-                if ($num > 0) {
-                    $post_list[$index]['date'] = $num . $units[$i] . '前';
-                    break;
-                }
+                // 传递参数给分页
+                $params .= '&cate=' . $cate;
             }
+
+            if ($common->verify($keyword)) {
+                // 获取符合搜索结果的文章列表
+                $res       = $common->getRecord('`aid`, `title`, `cdate` AS `date`', '`article`', "WHERE `title` LIKE '%{$keyword}%' ORDER BY `cdate` DESC LIMIT {$start}, {$limit}");
+                $post_list = $res->fetchAll();
+
+                // 获取符合搜索结果的文章总数
+                $count = $common->getCount('`article`', "WHERE `title` LIKE '%{$keyword}%'");
+
+                // 传递参数给分页
+                $params .= '&keyword=' . $keyword;
+            }
+        } else {
+            $res       = $common->getRecord('`aid`, `title`, `cdate` AS `date`', '`article`', "ORDER BY `cdate` DESC LIMIT {$start}, {$limit}");
+            $post_list = $res->fetchAll();
+            $count     = $common->getCount('`article`');
         }
 
-        $pageCount = ceil($count / 20);
+        foreach ($post_list as &$post) {
+            $post['date'] = $common->formatDate($post['date']);
+        }
 
-        if ($page == 1) {
+        $pageCount = ceil($count / $limit);
+
+        if ($page < 2) {
             $prev = '<li><a class="disable"><</a></li>';
         } else {
             $prev = '<li><a href="' . $params . '&page=' . ($page - 1) . '"><</a></li>';
@@ -93,26 +93,18 @@ class Index extends Controller
         ];
 
         // 网站标题
-        $res   = $db->select('`val`', '`setting`', "WHERE `key` = 'title' LIMIT 1");
-        $title = $db->fetch($res)['val'];
-
+        $title = $common->getSetting('title');
         // 博主
-        $res  = $db->select('`val`', '`setting`', "WHERE `key` = 'name' LIMIT 1");
-        $name = $db->fetch($res)['val'];
-
+        $name = $common->getSetting('name');
         // 社交链接
-        $res     = $db->select('`icon`, `url`', '`social`');
-        $socials = $db->fetchAll($res);
-
+        $socials = $common->getAllData('`icon`, `url`', '`social`');
         // 友情链接
-        $res   = $db->select('`title`, `url`', '`link`');
-        $links = $db->fetchAll($res);
-
+        $links = $common->getAllData('`title`, `url`', '`link`');
         // 所有分类
-        $res        = $db->select('`title`', '`category`');
-        $categories = $res->fetchAll();
+        $categories = $common->getAllData('`title`', '`category`');
 
         $layoutParams = [
+            'cate'       => $common->verify($cate) ? $cate : 'index',
             'title'      => $title,
             'author'     => $name,
             'socials'    => $socials,

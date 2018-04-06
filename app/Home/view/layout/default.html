@@ -50,9 +50,9 @@
 
     <header class="header nav">
         <ul class="navbar center-y">
-            <li><a class="delay" href="/">首页</a></li>
+            <li><a class="delay <?= $cate == 'index' ? 'active' : ''; ?>" href="/">首页</a></li>
             <?php foreach ($categories as $item): ?>
-                <li><a class="delay" href="/?cate=<?=$item['title'];?>"><?=$item['title'];?></a></li>
+                <li><a class="delay <?= $cate == $item['title'] ? 'active' : ''; ?>" href="/?cate=<?=$item['title'];?>"><?=$item['title'];?></a></li>
             <?php endforeach;?>
         </ul>
     </header>

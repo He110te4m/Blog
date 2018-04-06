@@ -1,0 +1,5 @@
+# 缓存目录和日志目录，运行时自动生成
+despote/runtime/*
+
+# 密码生成文件
+/pass.php
