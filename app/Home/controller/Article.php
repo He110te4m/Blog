@@ -18,58 +18,46 @@ class Article extends Controller
 {
     public function detail()
     {
-        $db    = Despote::sql();
-        $cache = Despote::fileCache();
+        $common = $this->getModel();
+        $cache  = Despote::fileCache();
 
+        // 校验链接是否合法
         $aid = Despote::request()->get('id');
-        if (is_null($aid)) {
+        if (!$common->verify($aid)) {
             header('location: /404.html');
             die;
         }
 
+        // 尝试从缓存中获取数据
         $post = $cache->get('post' . $aid);
         if ($post === false) {
-            $res  = $db->select('`category`, `title`, `content`, `cdate` AS `date`', '`article_view`', 'WHERE `aid` = ? LIMIT 1', [$aid]);
+            // 从数据库中获取并缓存
+            $res  = Despote::sql()->select('`category`, `title`, `content`, `cdate` AS `date`', '`article_view`', 'WHERE `aid` = ? LIMIT 1', [$aid]);
             $post = $res->fetch();
 
+            // 解压缩并编译 markdown
             $post['content'] = Despote::md()->parse(gzuncompress($post['content']));
 
             // 缓存一周
             $cache->set('post' . $aid, $post, 604800);
         }
 
-        $units = ['年', '月', '天', '小时', '分钟', '秒'];
-        $vals  = [31104000, 2592000, 86400, 3600, 60, 1];
+        // 格式化时间
+        $post['date'] = $common->formatDate($post['date']);
 
-        foreach ($vals as $index => $item) {
-            $num = floor((time() - $post['date']) / $item);
-            if ($num > 0) {
-                $post['date'] = $num . $units[$index] . '前';
-                break;
-            }
-        }
-
+        // 规范化的传递数据给视图
         $pageParams = $post;
 
         // 网站标题
-        $res   = $db->select('`val`', '`setting`', "WHERE `key` = 'title' LIMIT 1");
-        $title = $db->fetch($res)['val'];
-
+        $title = $common->getSetting('title');
         // 博主
-        $res  = $db->select('`val`', '`setting`', "WHERE `key` = 'name' LIMIT 1");
-        $name = $db->fetch($res)['val'];
-
+        $name = $common->getSetting('name');
         // 社交链接
-        $res     = $db->select('`icon`, `url`', '`social`');
-        $socials = $db->fetchAll($res);
-
+        $socials = $common->getAllData('`icon`, `url`', '`social`');
         // 友情链接
-        $res   = $db->select('`title`, `url`', '`link`');
-        $links = $db->fetchAll($res);
-
+        $links = $common->getAllData('`title`, `url`', '`link`');
         // 所有分类
-        $res        = $db->select('`title`', '`category`');
-        $categories = $res->fetchAll();
+        $categories = $common->getAllData('`title`', '`category`');
 
         $layoutParams = [
             'title'      => $title,
@@ -77,6 +65,7 @@ class Article extends Controller
             'socials'    => $socials,
             'links'      => $links,
             'categories' => $categories,
+            'cate'       => $post['category'],
         ];
 
         $this->render('detail.html', $pageParams, 'default.html', $layoutParams);

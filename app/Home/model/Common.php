@@ -157,17 +157,19 @@ class Common extends Model
     {
         $db = Despote::sql();
 
-        $res   = $db->select('`val`', '`setting`', "WHERE `key` = '{$val}' LIMIT 1");
-        $value = $db->fetch($res)['val'];
+        $res = $db->select('`val`', '`setting`', "WHERE `key` = '{$val}' LIMIT 1");
+        // 使用数据库自动缓存
+        $result = $db->fetch($res)['val'];
 
-        return $value;
+        return $result;
     }
 
     public function getAllData($field, $table)
     {
         $db = Despote::sql();
 
-        $res    = $db->select($field, $table);
+        $res = $db->select($field, $table);
+        // 使用数据库自动缓存
         $result = $db->fetchAll($res);
 
         return $result;

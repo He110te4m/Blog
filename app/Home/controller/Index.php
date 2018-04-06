@@ -18,10 +18,8 @@ class Index extends Controller
 {
     public function index()
     {
-        $db     = Despote::sql();
         $common = $this->getModel();
         $http   = Despote::request();
-        $cache  = Despote::fileCache();
 
         $cate    = $http->get('cate');
         $page    = $http->get('page', 1);
@@ -31,6 +29,7 @@ class Index extends Controller
         $params = '?';
         $start  = ($page - 1) * $limit;
 
+        // 根据参数获取文章列表及文章总数
         if ($common->verify($cate) || $common->verify($keyword)) {
             if ($common->verify($cate)) {
                 // 获取分类 id
@@ -65,18 +64,22 @@ class Index extends Controller
             $count     = $common->getCount('`article`');
         }
 
+        // 格式化日期
         foreach ($post_list as &$post) {
             $post['date'] = $common->formatDate($post['date']);
         }
 
+        // 统计总页数
         $pageCount = ceil($count / $limit);
 
+        // 生成上一页的链接
         if ($page < 2) {
             $prev = '<li><a class="disable"><</a></li>';
         } else {
             $prev = '<li><a href="' . $params . '&page=' . ($page - 1) . '"><</a></li>';
         }
 
+        // 生成下一页的链接
         if ($pageCount == $page || $pageCount < 2) {
             $next = '<li><a class="disable">></a></li>';
         } else {
