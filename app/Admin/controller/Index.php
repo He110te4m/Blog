@@ -11,27 +11,22 @@
  */
 namespace app\Admin\controller;
 
-use \Despote;
 use \despote\base\Controller;
 
 class Index extends Controller
 {
-    public function index()
+    public function init()
     {
-        $db    = Despote::sql();
-        $cache = Despote::fileCache();
-
-        $sid1 = $cache->get('sid');
-        $sid2 = Despote::cookie()->get('sid');
-
-        if ($sid1 === false || $sid1 != $sid2) {
-            header('location: /Admin/User/login');
+        if ($this->getModel()->check() === false) {
+            header('location: /404.html');
             die;
         }
+    }
 
+    public function index()
+    {
         // 网站标题
-        $res   = $db->select('`val`', '`setting`', 'WHERE `key` = ? LIMIT 1', ['title']);
-        $title = $db->fetch($res)['val'];
+        $title = $this->getModel()->getSetting('title');
 
         $pageParams = [
             'title' => $title,

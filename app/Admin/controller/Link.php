@@ -15,6 +15,14 @@ use \despote\base\Controller;
 
 class Link extends Controller
 {
+    public function init()
+    {
+        if ($this->getModel()->check() === false) {
+            header('location: /404.html');
+            die;
+        }
+    }
+
     public function manage()
     {
         $this->render('link.html');

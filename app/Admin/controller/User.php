@@ -18,10 +18,7 @@ class User extends Controller
 {
     public function login()
     {
-        $sid1 = Despote::cookie()->get('sid');
-        $sid2 = Despote::fileCache()->get('sid');
-
-        if ($sid2 !== false && $sid1 == $sid2) {
+        if ($this->getModel()->check()) {
             header('location: /Admin/Index/index');
             die;
         }

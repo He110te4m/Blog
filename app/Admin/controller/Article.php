@@ -16,13 +16,17 @@ use \despote\base\Controller;
 
 class Article extends Controller
 {
+    public function init()
+    {
+        if ($this->getModel()->check() === false) {
+            header('location: /404.html');
+            die;
+        }
+    }
+
     public function add()
     {
-        $db    = Despote::sql();
-        $cache = Despote::fileCache();
-
-        $res        = $db->select('`title`', '`category`');
-        $categories = $db->fetchAll($res);
+        $categories = $this->getModel()->getAllData('`title`', '`category`');
 
         $pageParams = [
             'categories' => $categories,
@@ -38,27 +42,27 @@ class Article extends Controller
 
     public function edit()
     {
-        $db    = Despote::sql();
-        $http  = Despote::request();
-        $cache = Despote::fileCache();
+        $common = $this->getModel();
 
-        $id = $http->get('id');
-
-        if (is_null($id)) {
+        // 校验 URL 参数
+        $id = Despote::request()->get('id');
+        if (!$common->verify($id)) {
             header('location: /404.html');
             die;
         }
 
-        $res    = $db->select('`aid` AS `id`, `title`, `category`, `content`, `cdate` AS `date`', '`article_view`', 'WHERE `aid` = ? LIMIT 1', [$id]);
+        // 获取文章数据
+        $res    = $common->getRecord('`aid` AS `id`, `title`, `category`, `content`, `cdate` AS `date`', '`article_view`', 'WHERE `aid` = ? LIMIT 1', [$id]);
         $result = $res->fetch();
-
+        // 解压缩文章内容
         $result['content'] = gzuncompress($result['content']);
 
-        $res        = $db->select('`title`', '`category`');
-        $categories = $db->fetchAll($res);
+        // 获取分类列表
+        $categories = $common->getAllData('`title`', '`category`');
 
+        // 规范化的传递数据给视图
         $pageParams = $result;
-
+        // 补全需要传递的数据
         $pageParams['categories'] = $categories;
 
         $this->render('article-edit.html', $pageParams);
