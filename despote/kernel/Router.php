@@ -7,7 +7,7 @@
  *   |____/ \___||___/ .__/ \___/ \__\___|
  *                   |_|
  * 路由解析类
- * @author      He110 (i@he110.top)
+ * @author      He110 (i@he110.info)
  * @namespace   despote\kernel
  */
 
@@ -34,18 +34,24 @@ class Router extends Service
     // 现在的路由信息
     protected $router = [];
 
+    /**
+     * 初始化函数，开始校验与解析 URL
+     */
     protected function init()
     {
         $host = Despote::request()->getHost();
         if (!empty($this->host) && !isset($this->host[$host])) {
             // 域名绑定校验
-            throw new \Exception("Access Forbidden", 403);
-            return;
+            throw new Exception("Access Forbidden", 403);
+        } else {   
+            // 校验通过，开始解析 URL
+            $this->parse();
         }
-        // 校验通过，开始解析 URL
-        $this->parse();
     }
 
+    /**
+     * 解析 URL
+     */
     public function parse()
     {
         // 解析原生 URL 请求地址，这样能区分出用户自己带上的 GET 参数
@@ -56,6 +62,12 @@ class Router extends Service
         $path = trim(preg_replace('/^(\/)?index\.php/i', '', $path, 1), '/');
         // 获取 GET 参数
         parse_str(isset($urlInfo['query']) ? $urlInfo['query'] : '', $_GET);
+
+        // 过滤后缀，伪静态设置
+        $suffix = Despote::file()->getSuffix($path);
+        if (!empty($suffix)) {
+            $path = rtrim(preg_replace('/.' . $suffix . '$/i', '', $path, 1), '/');
+        }
 
         // 路由匹配
         $pathInfo = empty($path) ? [] : explode('/', $path);
@@ -109,14 +121,21 @@ class Router extends Service
         try {
             $obj = new \ReflectionClass($class);
         } catch (Exception $e) {
-            throw new Exception("{$this->getModule()} 模块中的 {$this->getCtrl()} 控制器中的 {$this->getAction()} 方法调用失败。调用的 URI 为：{$http->getUri()}", 1);
+            if (Utils::config('debug', false)) {
+                throw new Exception("{$this->getModule()} 模块中的 {$this->getCtrl()} 控制器中的 {$this->getAction()} 方法调用失败。调用的 URI 为：{$http->getUri()}", 1);
+            }
+
         }
-        $func   = $obj->getMethod($this->getAction());
+        $func = $obj->getMethod($this->getAction());
+
+        // 装载 Action 参数，兼容 Action 传参
         $params = [];
         foreach ($func->getParameters() as $param) {
             $val                  = $http->get($param->name, false);
             $params[$param->name] = $val === false ? '' : $val;
         }
+
+        // 判断是否为公有可调用的 Action
         if ($func->isPublic()) {
             Event::trigger('BEFORE_ACTION');
             // 实例化控制器并调用 action

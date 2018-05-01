@@ -6,8 +6,8 @@
  *   | |_| |  __/\__ \ |_) | (_) | ||  __/
  *   |____/ \___||___/ .__/ \___/ \__\___|
  *                   |_|
- * 自定义需要加载的组件
- * @author      He110 (i@he110.top)
+ * 自定义需要加载的组件，核心组件如未注册会根据默认配置自动加载
+ * @author      He110 (i@he110.info)
  */
 
 return [
@@ -26,7 +26,7 @@ return [
     //     'action'     => 'index',
     // ],
     // MySQL
-    'sql'  => [
+    'sql'    => [
         'class' => '\despote\kernel\db\MySQL',
 
         // // 数据库地址，默认为 localhost
@@ -36,16 +36,13 @@ return [
         // 'port'  => 3306,
 
         // // 数据库用户名，默认为 root
-        // 'usr'   => 'blog_he110_info',
+        // 'usr'   => 'root',
 
         // // 数据库密码，默认为 root
-        // 'pwd'   => '520520520',
+        // 'pwd'   => 'root',
 
         // // 数据库名，默认为 test
-        // 'name'  => 'blog_he110_info',
-
-        // 数据库名，默认为 test
-        'name'  => 'blog',
+        // 'name'  => 'blog',
 
         // // 是否开启持久连接，默认为 true
         // 'pconn' => true,
@@ -73,14 +70,14 @@ return [
         // // 模拟预处理，默认为 false
         // 'pretreat' => false,
     ],
-    // // 日志记录
-    // 'logger'    => [
-    //     'class' => '\despote\kernel\Logger',
-    //     // 日志存放位置
-    //     'path'  => PATH_LOG,
-    //     // 日志等级
-    //     'limit' => 5,
-    // ],
+    // 日志记录
+    'logger' => [
+        'class' => '\despote\kernel\Logger',
+        // 日志存放位置
+        'path'  => PATH_LOG,
+        // 日志等级
+        'limit' => 5,
+    ],
     // // cookie 操作类
     // 'cookie'    => [
     //     'class' => 'despote\kernel\Cookie',
@@ -134,7 +131,7 @@ return [
     //         ],
     //     ],
     // ],
-    'md'   => '\despote\extend\Parsedown',
+    'md'       => '\despote\extend\Parsedown',
     // 'tpl'       => [
     //     'class'  => '\despote\kernel\Tpl',
     //     'module' => 'Home',
@@ -144,29 +141,31 @@ return [
     //     // 加密的密钥
     //     'secret' => 'Despote',
     // ],
-    'mail' => [
-        'class' => '\despote\extend\Mailer',
-        // // 使用的安全协议
-        // 'SMTPSecure' => 'ssl',
-        // // 邮件的字符编码
-        // 'CharSet'    => 'UTF-8',
-        // // 是否进行安全认证
-        // 'SMTPAuth'   => true,
-        // // 邮件服务器端口
-        // 'Port'  => 465,
-        // // 邮件服务器地址
-        // 'Host'       => 'smtp.exmail.qq.com',
-        // // 邮件服务器登陆的用户名
-        // 'User'  => 'i@he110.top',
-        // // 邮件服务器登陆的密码
-        // 'Pwd'   => 'test',
-        // // 发送人邮箱
-        // 'Form'       => 'i@he110.top',
-        // // 发送人姓名
-        // 'FormName'   => 'He110',
-        // // 回复邮箱
-        // 'ReplyTo'    => 'i@he110.top',
-        // // 回复姓名
-        // 'ReplyName'  => 'He110',
-    ],
+    // 'mail'   => [
+    //     'class' => '\despote\extend\Mailer',
+    //     // // 使用的安全协议
+    //     // 'SMTPSecure' => 'ssl',
+    //     // // 邮件的字符编码
+    //     // 'CharSet'    => 'UTF-8',
+    //     // // 是否进行安全认证
+    //     // 'SMTPAuth'   => true,
+    //     // // 邮件服务器端口
+    //     // 'Port'  => 465,
+    //     // // 邮件服务器地址
+    //     // 'Host'       => 'smtp.exmail.qq.com',
+    //     // // 邮件服务器登陆的用户名
+    //     // 'User'  => 'i@he110.top',
+    //     // // 邮件服务器登陆的密码
+    //     // 'Pwd'   => 'test',
+    //     // // 发送人邮箱
+    //     // 'Form'       => 'i@he110.top',
+    //     // // 发送人姓名
+    //     // 'FormName'   => 'He110',
+    //     // // 回复邮箱
+    //     // 'ReplyTo'    => 'i@he110.top',
+    //     // // 回复姓名
+    //     // 'ReplyName'  => 'He110',
+    // ],
+    // 'xml'    => '\despote\kernel\XML',
+    // 'curl'   => '\despote\kernel\Curl',
 ];

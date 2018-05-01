@@ -6,7 +6,8 @@
  *   | |_| |  __/\__ \ |_) | (_) | ||  __/
  *   |____/ \___||___/ .__/ \___/ \__\___|
  *                   |_|
- * @author      He110 (i@he110.top)
+ * 模板引擎，没有整合到框架视图中，需要自行调用
+ * @author      He110 (i@he110.info)
  * @namespace   despote\kernel
  */
 
@@ -19,7 +20,7 @@ class Tpl extends Service
 {
     /////////////
     // 模板配置 //
-    ////////////
+    /////////////
 
     // 模板所在模块名
     public $module;
@@ -71,11 +72,6 @@ class Tpl extends Service
 
         require $cache;
     }
-
-    // public function assign($key, $value)
-    // {
-    //     $this->vars[$key] = $value;
-    // }
 
     /**
      * 获取模板绝对路径

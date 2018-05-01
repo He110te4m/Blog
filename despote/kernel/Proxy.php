@@ -6,8 +6,8 @@
  *   | |_| |  __/\__ \ |_) | (_) | ||  __/
  *   |____/ \___||___/ .__/ \___/ \__\___|
  *                   |_|
- * 反向代理类
- * @author      He110 (i@he110.top)
+ * 反向代理类，便于服务器端渲染如 Vue、React 等使用虚拟 DOM 技术的页面
+ * @author      He110 (i@he110.info)
  * @namespace   despote\kernel
  */
 
@@ -21,7 +21,7 @@ class Proxy extends Service
 {
     /////////////
     // 杂七杂八 //
-    ////////////
+    /////////////
 
     // 请求处理对象
     private $http;
@@ -30,7 +30,7 @@ class Proxy extends Service
 
     //////////////////
     // 代理服务器设置 //
-    /////////////////
+    //////////////////
 
     // 需要代理的主机号
     protected $host;
@@ -69,7 +69,7 @@ class Proxy extends Service
 
     //////////////////
     // 服务器返回参数 //
-    /////////////////
+    //////////////////
 
     // 本地是否存在有效缓存
     private $isCache = false;
