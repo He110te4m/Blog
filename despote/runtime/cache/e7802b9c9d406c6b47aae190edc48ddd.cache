@@ -1,0 +1,27 @@
+a:6:{s:3:"aid";i:22;s:5:"title";s:34:"PHP5.6 下类成员初始化问题";s:8:"category";s:12:"后端开发";s:4:"date";s:10:"2018-03-22";s:7:"content";s:1057:"<h1>问题代码</h1>
+<pre><code>define('DS', DIRECTORY_SEPARATOR);
+define('PATH_ROOT', dirname(__DIR__) . DS);
+define('PATH_RES', PATH_ROOT . 'static' . DS);
+
+class Test
+{
+    protected $path = PATH_RES . "uploads" . DS;
+    ...
+}</code></pre>
+<h1>问题追踪</h1>
+<p>如果文件所在的目录中含有 <code>.</code>，那么在 PHP 5.6 的环境下，将会报错，原因是 PHP 5.6 中，直接对类内成员使用常量初始化，会直接进行字符串替换，而且不加 &quot;&quot;，所以会直接将 . 解析为字符串连接运算符，故而导致程序报错</p>
+<h1>解决方案</h1>
+<p>将代码拆分，在构造函数中判断成员是否初始化，若未初始化再赋值，具体代码如下：</p>
+<pre><code>define('DS', DIRECTORY_SEPARATOR);
+define('PATH_ROOT', dirname(__DIR__) . DS);
+define('PATH_RES', PATH_ROOT . 'static' . DS);
+
+class Test
+{
+    protected $path;
+    ...
+    public function __construct()
+    {
+        empty($this-&gt;path) &amp;&amp; $this-&gt;path = PATH_RES . "uploads" . DS;
+    }
+}</code></pre>";s:11:"comment_num";i:0;}

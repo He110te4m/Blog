@@ -6,68 +6,66 @@
  *   | |_| |  __/\__ \ |_) | (_) | ||  __/
  *   |____/ \___||___/ .__/ \___/ \__\___|
  *                   |_|
- * @author      He110 (i@he110.top)
+ * @author      He110 (i@he110.info)
  * @namespace   app\Home\controller
  */
 namespace app\Home\controller;
 
-use \Despote;
 use \despote\base\Controller;
+use \Despote;
 
 class Article extends Controller
 {
     public function detail()
     {
+        // 获取通用模型
         $common = $this->getModel();
+        // 获取缓存对象
         $cache  = Despote::fileCache();
 
-        // 校验链接是否合法
+        // 校验 aid
         $aid = Despote::request()->get('id');
         if (!$common->verify($aid)) {
-            header('location: /404.html');
+            header('location: /Page/error.html');
             die;
         }
 
         // 尝试从缓存中获取数据
-        $post = $cache->get('post' . $aid);
+        $post = $cache->get('post-' . $aid);
         if ($post === false) {
             // 从数据库中获取并缓存
-            $res  = Despote::sql()->select('`category`, `title`, `content`, `cdate` AS `date`', '`article_view`', 'WHERE `aid` = ? LIMIT 1', [$aid]);
+            $res  = $common->getRecord('`aid`,  `title`, `category`, `cdate` AS `date`, `content`, `comment_num`', '`article_list`', 'WHERE `aid` = ? LIMIT 1', [$aid]);
             $post = $res->fetch();
 
-            // 解压缩并编译 markdown
-            $post['content'] = Despote::md()->parse(gzuncompress($post['content']));
+            // 处理日期格式
+            $post['date'] = date('Y-m-d', $post['date']);
+            // 编译 markdown
+            $post['content'] = Despote::md()->parse($post['content']);
 
             // 缓存一周
-            $cache->set('post' . $aid, $post, 604800);
+            $cache->set('post-' . $aid, $post, 604800);
         }
 
-        // 格式化时间
-        $post['date'] = $common->formatDate($post['date']);
+        // 网站名
+        $title = $common->getItem('site_name');
+        $author = $common->getItem('author');
+        $intro = $common->getItem('intro');
+        // 文章分类
+        $category = $common->getAllItem('`title`, `key`', 'category');
 
-        // 规范化的传递数据给视图
-        $pageParams = $post;
-
-        // 网站标题
-        $title = $common->getSetting('title');
-        // 博主
-        $name = $common->getSetting('name');
-        // 社交链接
-        $socials = $common->getAllData('`icon`, `url`', '`social`');
-        // 友情链接
-        $links = $common->getAllData('`title`, `url`', '`link`');
-        // 所有分类
-        $categories = $common->getAllData('`title`', '`category`');
-
+        // 视图参数
+        $pageParams = [
+            'post'   => $post,
+            'intro'  => $intro,
+            'author' => $author,
+        ];
+        // 布局参数
         $layoutParams = [
-            'title'      => $title,
-            'author'     => $name,
-            'socials'    => $socials,
-            'links'      => $links,
-            'categories' => $categories,
-            'cate'       => $post['category'],
+            'title'     => $title,
+            'category'  => $category,
+            'sub_title' => $post['title'],
         ];
 
-        $this->render('detail.html', $pageParams, 'default.html', $layoutParams);
+        $this->render('detail.html', $pageParams, 'home.html', $layoutParams);
     }
 }

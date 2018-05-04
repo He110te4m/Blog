@@ -1,0 +1,78 @@
+a:6:{s:3:"aid";i:21;s:5:"title";s:61:"关于 layui 数据表格点击按钮上传图片并显示在";s:8:"category";s:12:"前端设计";s:4:"date";s:10:"2018-03-11";s:7:"content";s:2605:"<p>功能：</p>
+<ul>
+<li>在表格内增加一列用于放置上传按钮</li>
+<li>点击上传按钮上传图片后，按钮修改为图片，点击图片也能再次上传修改图片</li>
+</ul>
+<p>HTML 代码如下：</p>
+<pre><code>&lt;div style="display: none;"&gt;
+    &lt;!-- 用于上传的按钮 --&gt;
+    &lt;a id="upload"&gt;&lt;/a&gt;
+&lt;/div&gt;
+&lt;table id="input" lay-filter="input"&gt;&lt;/table&gt;
+&lt;script type="text/html" id="img"&gt;
+    {{# if (d.img) { }}
+        &lt;!-- lay-index 是为了标识哪一行进行了上传操作 --&gt;
+        &lt;img lay-index="{{d.LAY_INDEX}}" style="height: 60px;" src="{{d.img}}" alt="产品图片"&gt;
+    {{# } else { }}
+        &lt;button lay-index="{{d.LAY_INDEX}}" class="layui-btn"&gt;上传图片&lt;/button&gt;
+    {{# } }}
+&lt;/script&gt;</code></pre>
+<p>JS 部分如下：</p>
+<pre><code>// 引入模块部分省略
+
+    // 处理 AJAX 返回的字符串 json，也可以使用 $.ajax() 方法
+    function getData(res) {
+        if (typeof res == 'string') {
+            res = eval('(' + res + ')');
+        }
+        return res;
+    }
+
+    // 表格初始化
+    var tableIns = table.render({
+        elem: '#input'
+        ,cellMinWidth: 100
+        ,data: [{}]
+        ,cols: [[
+            {type: 'checkbox'},
+            {field: 'name', title: '产品名称', width: 200, edit: 'text', align:'center', }
+            {field: 'img', title: '产品图片', width: 200, templet: '#img', align:'center', },
+        ]]
+        ,limit: 100,
+    });
+
+    // 上传的按钮所在行索引
+    var upIndex = -1;
+
+    // 渲染上传组件
+    upload.render({
+        elem: '#upload' //绑定元素
+        ,url: '/Api/Product/upload' //上传接口
+        ,field: 'img'
+        ,done: function (res) {
+            res = getData(res);
+            if (res.code) {
+                layer.alert('上传失败，' + res.msg);
+            } else {
+                layer.msg('上传成功');
+                table.cache.input[upIndex - 1].img = res.img
+                tableIns.reload({
+                    data: table.cache.input
+                });
+            }
+            upIndex = -1;
+        }
+        ,error: function () {
+            layer.alert('图片上传接口异常，请联系管理员解决');
+        }
+    });
+
+    // 监听所有的上传按钮
+    $(document).on('click', '[lay-index]', function() {
+        upIndex = $(this).attr('lay-index');
+        if (upIndex == -1) {
+            $('#upload').click();
+        } else {
+            layer.msg('还有文件正在上传...请稍后');
+        }
+    });</code></pre>";s:11:"comment_num";i:0;}

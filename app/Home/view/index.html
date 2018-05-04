@@ -1,28 +1,58 @@
-<ul class="post-list">
-<?php foreach ($list as $post): ?>
-    <li class="post">
-        <span class="post-title center-y delay"><a href="/Article/detail?id=<?=$post['aid'];?>"><?=$post['title'];?></a></span>
-        <span class="post-date center-y"><?=$post['date'];?></span>
-    </li>
-<?php endforeach;?>
-</ul>
-
-<section class="post-list-tools">
-    <form class="search layui-form center-y" action="">
-        <section class="keyword layui-input-inline center-y">
-            <input type="text" class="layui-input" name="keyword" required lay-verify="required" lay-verType="tips" placeholder="请输入关键词" style="height: 3rem;" autocomplete="off">
-        </section>
-        <section class="submit center-y">
-            <button class="layui-btn layui-btn-sm layui-btn-normal"><span class="layui-icon">&#xe615;</span></button>
-        </section>
-    </form>
-    <span class="page center-y">
-        <ul>
-            <li><a href="<?=$params;?>"><<</a></li>
-            <?=$prev;?>
-            <li><a class="active" href=""><?=$curr;?></a></li>
-            <?=$next;?>
-            <li><a href="<?=$params . '&page=' . $count;?>">>></a></li>
-        </ul>
-    </span>
-</section>
+    <main>
+        <div class="wrap min">
+            <section class="home-title">
+                <h1><?=$title;?></h1>
+                <span><?=$desc;?></span>
+                <div class="home-social">
+                    <?php foreach ($social as $item): ?>
+                    <a rel="nofollow" title="<?=$item['title']?>" href="<?=$item['url']?>" target="_blank">
+                        <?=$item['icon']?>
+                    </a>
+                    <?php endforeach; ?>
+                </div>
+            </section>
+            <section class="home-posts">
+            <?php foreach ($article as $item): ?>
+                <div class="post-item">
+                    <h2>
+                        <a href="/Article/detail.html?id=<?=$item['id']?>"><?=$item['title']?></a>
+                    </h2>
+                    <p><?=$item['abstract']?></p>
+                    <div class="post-meta">
+                        <time class="date"><?=$item['date']?></time>
+                        <span class="category">
+                            <a href="/Cate/detail.html?key=<?=$item['key']?>"><?=$item['category']?></a>
+                        </span>
+                        <span class="comments"><?=$item['comment_num']?> °C</span>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+            </section>
+            <ol class="page-navigator">
+            <?php for ($i = 1; $i <= $count; ++$i): ?>
+                <?php if ($next == $i + 1): ?>
+                <li>
+                    <a style="color: #000;"><?=$i?></a>
+                </li>
+                <?php else: ?>
+                <li>
+                    <a href="/?page=<?=$i;?>"><?=$i?></a>
+                </li>
+                <?php endif; ?>
+            <?php endfor; ?>
+            <?php if ($count > 6): ?>
+                <li>
+                    <span>...</span>
+                </li>
+                <li>
+                    <a href="/?page=<?=$count?>">7</a>
+                </li>
+            <?php endif; ?>
+            <?php if ($next - 1 != $count): ?>
+                <li class="next">
+                    <a href="/?page=<?=$next?>">></a>
+                </li>
+            <?php endif; ?>
+            </ol>
+        </div>
+    </main>

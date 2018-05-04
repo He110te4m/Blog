@@ -1,0 +1,49 @@
+    <main>
+        <div class="wrap min">
+            <section class="home-title">
+                <h1><?=$cate['title']?></h1>
+                <span><?=$cate['desc']?></span>
+            </section>
+            <section class="home-posts">
+            <?php foreach ($article as $item): ?>
+                <div class="post-item">
+                    <h2><a href="/Article/detail.html?id=<?=$item['id']?>"><?=$item['title']?></a></h2>
+                    <p><?=$item['abstract']?></p>
+                    <div class="post-meta">
+                        <time class="date"><?=$item['date']?>></time>
+                        <span class="category">
+                            <a href="/Cate/detail.html?key=<?=$cate['key']?>"><?=$cate['title']?></a>
+                        </span>
+                        <span class="comments"><?=$item['comment_num']?> °C</span>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+            </section>
+            <ol class="page-navigator">
+            <?php for ($i = 1; $i <= $count; ++$i): ?>
+                <?php if ($next == $i + 1): ?>
+                <li>
+                    <a style="color: #000;"><?=$i?></a>
+                </li>
+                <?php else: ?>
+                <li>
+                    <a href="/?page=<?=$i;?>"><?=$i?></a>
+                </li>
+                <?php endif; ?>
+            <?php endfor; ?>
+            <?php if ($count > 6): ?>
+                <li>
+                    <span>...</span>
+                </li>
+                <li>
+                    <a href="/?page=<?=$count?>">7</a>
+                </li>
+            <?php endif; ?>
+            <?php if ($next - 1 != $count): ?>
+                <li class="next">
+                    <a href="/?page=<?=$next?>">></a>
+                </li>
+            <?php endif; ?>
+            </ol>
+        </div>
+    </main>

@@ -1,11 +1,28 @@
-<section class="article">
-    <section class="title"><?=$title?></section>
-    <section class="info">
-        <span><a href="#"><?=$category?></a></span>
-        <span><?=$date?></span>
-        <span><a href="/">He110</a></span>
-    </section>
-    <article class="detail">
-        <?=$content;?>
-    </article>
-</section>
+    <main>
+        <div class="wrap min">
+            <section class="post-title">
+                <h2><?=$post['title']?></h2>
+                <div class="post-meta">
+                    <time class="date"><?=$post['date']?></time>
+                    <span class="category"><?=$post['category']?></span>
+                    <span class="comments"><?=$post['comment_num']?> °C</span>
+                </div>
+            </section>
+            <article class="post-content">
+                <?=$post['content']?>
+            </article>
+            <section class="post-author">
+                <figure>
+                    <img src="/static/img/avatar.jpg" alt="avatar" width="200" height="200" />
+                </figure>
+                <div>
+                    <h4><?=$author?></h4>
+                    <p><?=$intro?></p>
+                </div>
+            </section>
+
+            <section id="comments" class="post-comments">
+                <h3>已有 <?=$post['comment_num']?> 条评论</h3>
+            </section>
+        </div>
+    </main>

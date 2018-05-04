@@ -41,8 +41,8 @@ return [
         // // 数据库密码，默认为 root
         // 'pwd'   => 'root',
 
-        // // 数据库名，默认为 test
-        // 'name'  => 'blog',
+        // 数据库名，默认为 test
+        'name'  => 'blog',
 
         // // 是否开启持久连接，默认为 true
         // 'pconn' => true,
@@ -99,38 +99,6 @@ return [
     // 'upload'  => '\despote\kernel\Upload',
     // // 快速缓存
     // 'cache'   => 'despote\kernel\cache\FastCache',
-    // // 文件缓存
-    // 'fileCache' => [
-    //     'class' => 'despote\kernel\cache\FileCache',
-    //     // 缓存路径
-    //     'path'  => PATH_CACHE,
-    //     // 缓存 GC 设置
-    //     'gc'    => 50,
-    // ],
-    // // MemCache
-    // 'memCache' => [
-    //     'class'   => 'despote\kernel\cache\MemCache',
-    //     // MemCache 服务器地址
-    //     'servers' => [
-    //         // 第一台 MemCache 服务器配置信息
-    //         [
-    //             // 服务器主机地址
-    //             '127.0.0.1',
-    //             // 服务器端口
-    //             '11211',
-    //             // 服务器权重
-    //             33,
-    //             // ], [
-    //             //     '127.0.0.1',
-    //             //     '11212',
-    //             //     33,
-    //             // ], [
-    //             //     '127.0.0.1',
-    //             //     '11213',
-    //             //     33,
-    //         ],
-    //     ],
-    // ],
     'md'       => '\despote\extend\Parsedown',
     // 'tpl'       => [
     //     'class'  => '\despote\kernel\Tpl',
@@ -141,31 +109,31 @@ return [
     //     // 加密的密钥
     //     'secret' => 'Despote',
     // ],
-    // 'mail'   => [
-    //     'class' => '\despote\extend\Mailer',
-    //     // // 使用的安全协议
-    //     // 'SMTPSecure' => 'ssl',
-    //     // // 邮件的字符编码
-    //     // 'CharSet'    => 'UTF-8',
-    //     // // 是否进行安全认证
-    //     // 'SMTPAuth'   => true,
-    //     // // 邮件服务器端口
-    //     // 'Port'  => 465,
-    //     // // 邮件服务器地址
-    //     // 'Host'       => 'smtp.exmail.qq.com',
-    //     // // 邮件服务器登陆的用户名
-    //     // 'User'  => 'i@he110.top',
-    //     // // 邮件服务器登陆的密码
-    //     // 'Pwd'   => 'test',
-    //     // // 发送人邮箱
-    //     // 'Form'       => 'i@he110.top',
-    //     // // 发送人姓名
-    //     // 'FormName'   => 'He110',
-    //     // // 回复邮箱
-    //     // 'ReplyTo'    => 'i@he110.top',
-    //     // // 回复姓名
-    //     // 'ReplyName'  => 'He110',
-    // ],
+    'mail'   => [
+        'class' => '\despote\extend\Mailer',
+        // // 使用的安全协议
+        // 'SMTPSecure' => 'ssl',
+        // // 邮件的字符编码
+        // 'CharSet'    => 'UTF-8',
+        // // 是否进行安全认证
+        // 'SMTPAuth'   => true,
+        // // 邮件服务器端口
+        // 'Port'  => 465,
+        // // 邮件服务器地址
+        // 'Host'       => 'smtp.exmail.qq.com',
+        // // 邮件服务器登陆的用户名
+        // 'User'  => 'i@he110.top',
+        // // 邮件服务器登陆的密码
+        // 'Pwd'   => 'test',
+        // // 发送人邮箱
+        // 'Form'       => 'i@he110.top',
+        // // 发送人姓名
+        // 'FormName'   => 'He110',
+        // // 回复邮箱
+        // 'ReplyTo'    => 'i@he110.top',
+        // // 回复姓名
+        // 'ReplyName'  => 'He110',
+    ],
     // 'xml'    => '\despote\kernel\XML',
-    // 'curl'   => '\despote\kernel\Curl',
+    'curl'   => '\despote\kernel\Curl',
 ];
