@@ -34,8 +34,7 @@ class Article extends Controller
         $post = $cache->get('post-' . $aid);
         if ($post === false) {
             // 从数据库中获取并缓存
-            $res  = $common->getRecord('`aid`,  `title`, `category`, `cdate` AS `date`, `content`, `comment_num`', '`article_list`', 'WHERE `aid` = ? LIMIT 1', [$aid]);
-            $post = $res->fetch();
+            $post = $common->getRecord('`aid`,  `title`, `category`, `cdate` AS `date`, `content`, `comment_num`', '`article_list`', 'WHERE `aid` = ? LIMIT 1', [$aid])->fetch();
 
             // 处理日期格式
             $post['date'] = date('Y-m-d', $post['date']);
@@ -44,6 +43,12 @@ class Article extends Controller
 
             // 缓存一周
             $cache->set('post-' . $aid, $post, 604800);
+        }
+
+        // 获取评论
+        $comment = $common->getRecord('`cdate` as `date`, `author`, `email`, `website`, `content`', '`comment`', 'WHERE `aid` = ? ORDER BY `cdate` DESC', [$aid])->fetchAll();
+        foreach ($comment as &$item) {
+            $item['date'] = date('Y-m-d', $item['date']);
         }
 
         // 网站名
@@ -55,9 +60,10 @@ class Article extends Controller
 
         // 视图参数
         $pageParams = [
-            'post'   => $post,
-            'intro'  => $intro,
-            'author' => $author,
+            'post'    => $post,
+            'intro'   => $intro,
+            'author'  => $author,
+            'comment' => $comment,
         ];
         // 布局参数
         $layoutParams = [
@@ -67,5 +73,32 @@ class Article extends Controller
         ];
 
         $this->render('detail.html', $pageParams, 'home.html', $layoutParams);
+    }
+
+    public function comment()
+    {
+        // 获取通用模型
+        $common = $this->getModel();
+        // 获取请求对象
+        $http = Despote::request();
+
+        // 获取参数
+        $aid    = $http->post('id');
+        $url    = $http->post('url');
+        $text   = $http->post('text');
+        $email  = $http->post('email');
+        $author = $http->post('author');
+
+        $result = $common->addRecord('`comment`', '`aid`, `website`, `content`, `email`, `author`', [$aid, $url, $text, $email, $author]);
+
+        if ($result === true) {
+            $code = 0;
+            $msg  = '';
+        } else {
+            $code = 1;
+            $msg  = $result;
+        }
+
+        echo json_encode(['code' => $code, 'msg' => $msg], JSON_UNESCAPED_UNICODE);
     }
 }

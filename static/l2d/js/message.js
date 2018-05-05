@@ -20,6 +20,8 @@ String.prototype.renderTip = function (context) {
     return renderTip(this, context);
 };
 
+var re = /x/;
+console.log(re);
 re.toString = function() {
     showMessage('哈哈，你打开了控制台，是想要看看我的秘密吗？', 5000);
     return '';
@@ -32,7 +34,7 @@ $(document).on('copy', function (){
 function initTips(){
     $.ajax({
         cache: true,
-        url: '/static/l2d/message.json',
+        url: `${message_Path}message.json`,
         dataType: "json",
         success: function (result){
             $.each(result.mouseover, function (index, tips){
@@ -99,8 +101,17 @@ initTips();
     showMessage(text, 12000);
 })();
 
+window.setInterval(showHitokoto,30000);
+
+function showHitokoto(){
+    $.getJSON('https://sslapi.hitokoto.cn/',function(result){
+        showMessage(result.hitokoto, 5000);
+    });
+}
+
 function showMessage(text, timeout){
     if(Array.isArray(text)) text = text[Math.floor(Math.random() * text.length + 1)-1];
+    //console.log('showMessage', text);
     $('.message').stop();
     $('.message').html(text).fadeTo(200, 1);
     if (timeout === null) timeout = 5000;

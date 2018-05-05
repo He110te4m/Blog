@@ -20,6 +20,11 @@
             <?php endforeach; ?>
             </section>
             <ol class="page-navigator">
+            <?php if ($next != 2): ?>
+                <li class="next">
+                    <a href="/?page=<?=$next - 2?>"><</a>
+                </li>
+            <?php endif; ?>
             <?php for ($i = 1; $i <= $count; ++$i): ?>
                 <?php if ($next == $i + 1): ?>
                 <li>

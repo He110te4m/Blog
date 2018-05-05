@@ -63,4 +63,27 @@ if ($(".post-content").length > 0 || $('.page-content').length > 0) {
     });
 
     $('.wrap').append(trees);
+
+    $('#add-comment').on('click', function () {
+        let params = {
+            'id': $('[name="id"]').val(),
+            'url': $('[name="url"]').val(),
+            'text': $('[name="text"]').val(),
+            'email': $('[name="email"]').val(),
+            'author': $('[name="author"]').val(),
+        };
+        $.post('/Article/comment.html', params, function (data) {
+            if (typeof data == 'string') {
+                data = eval('(' + data + ')');
+            }
+            console.log(layer);
+            if (data.code != 0) {
+                layer.alert(data.msg);
+            } else {
+                layer.msg('评论发布成功');
+            }
+        });
+
+        return false;
+    });
 }

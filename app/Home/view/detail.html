@@ -23,6 +23,38 @@
 
             <section id="comments" class="post-comments">
                 <h3>已有 <?=$post['comment_num']?> 条评论</h3>
+                <section class="response">
+                    <form class="bk-form">
+                        <div class="row">
+                            <fieldset class="col-m-6">
+                                <input type="hidden" name="id" value="<?=$post['aid']?>">
+                                <input type="text" name="author" placeholder="He110" required>
+                                <input type="email" name="email" placeholder="i@he110.info" required>
+                                <input type="url" name="url" placeholder="http://blog.he110.info">
+                            </fieldset>
+                            <fieldset class="col-m-6">
+                                <textarea rows="3" name="text" placeholder="快来评论吧 (*≧ω≦)ﾉ" required></textarea>
+                                <button id="add-comment" type="submit" class="btn small">写好了~</button>
+                            </fieldset>
+                        </div>
+                    </form>
+                </section>
+                <ol class="comment-list">
+                <?php foreach($comment as $item): ?>
+                    <li>
+                        <img class="avatar" src="http://www.gravatar.com/avatar/<?=md5($item['email'])?>?s=32" alt="<?=$item['author']?>" width="150" height="150">
+                        <div class="comment-meta">
+                            <span class="comment-author">
+                                <a href="<?=$item['website']?>" rel="external nofollow"><?=$item['author']?></a>
+                            </span>
+                            <time class="comment-time"><?=$item['date']?></time>
+                        </div>
+                        <div class="comment-content">
+                            <p><?=$item['content']?></p>
+                        </div>
+                    </li>
+                <?php endforeach; ?>
+                </ol>
             </section>
         </div>
     </main>
