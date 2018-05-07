@@ -25,8 +25,10 @@ class Index extends Controller
         $http = Despote::request();
         // 页码
         $page = $http->get('page', 1);
+        $page = $page + 0;
         // 每页显示的条目
         $limit = $http->get('limit', 10);
+        $limit = $limit + 0;
         // SQL 查询时起始位置
         $start = ($page - 1) * $limit;
 

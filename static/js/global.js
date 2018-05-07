@@ -65,6 +65,10 @@ if ($(".post-content").length > 0 || $('.page-content').length > 0) {
     $('.wrap').append(trees);
 
     $('#add-comment').on('click', function () {
+        if ($('[name="id"]').val() == '' || $('[name="text"]').val() == '' || $('[name="email"]').val() == '' || $('[name="author"]').val() == '') {
+            layer.msg('不要闹，请输入完整信息~');
+            return false;
+        }
         let params = {
             'id': $('[name="id"]').val(),
             'url': $('[name="url"]').val(),
@@ -76,7 +80,6 @@ if ($(".post-content").length > 0 || $('.page-content').length > 0) {
             if (typeof data == 'string') {
                 data = eval('(' + data + ')');
             }
-            console.log(layer);
             if (data.code != 0) {
                 layer.alert(data.msg);
             } else {

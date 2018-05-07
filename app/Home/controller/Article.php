@@ -82,6 +82,8 @@ class Article extends Controller
         // 获取请求对象
         $http = Despote::request();
 
+        $code = 1;
+
         // 获取参数
         $aid    = $http->post('id');
         $url    = $http->post('url');
@@ -89,15 +91,22 @@ class Article extends Controller
         $email  = $http->post('email');
         $author = $http->post('author');
 
-        $result = $common->addRecord('`comment`', '`aid`, `website`, `content`, `email`, `author`', [$aid, $url, $text, $email, $author]);
+        if ($common->verify($aid) && $common->verify($url) && $common->verify($text) && $common->verify($email) && $common->verify($author)) {
+            $date   = time();
+            $aid    = htmlspecialchars($aid);
+            $url    = htmlspecialchars($url);
+            $text   = htmlspecialchars($text);
+            $email  = htmlspecialchars($email);
+            $author = htmlspecialchars($author);
 
-        if ($result === true) {
-            $code = 0;
-            $msg  = '';
-        } else {
-            $code = 1;
-            $msg  = $result;
+            $result = $common->addRecord('`comment`', '`aid`, `cdate`, `website`, `content`, `email`, `author`', [$aid, $date, $url, $text, $email, $author]);
+            if ($result === true) {
+                $code = 0;
+                $msg  = '';
+            }
         }
+
+        $msg  = $result;
 
         echo json_encode(['code' => $code, 'msg' => $msg], JSON_UNESCAPED_UNICODE);
     }

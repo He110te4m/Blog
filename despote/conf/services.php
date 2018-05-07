@@ -36,12 +36,13 @@ return [
         // 'port'  => 3306,
 
         // // 数据库用户名，默认为 root
-        // 'usr'   => 'root',
+        // 'usr'   => 'blog_he110_info',
 
         // // 数据库密码，默认为 root
-        // 'pwd'   => 'root',
+        // 'pwd'   => '520520520',
 
-        // 数据库名，默认为 test
+        // // 数据库名，默认为 test
+        // 'name'  => 'blog_he110_info',
         'name'  => 'blog',
 
         // // 是否开启持久连接，默认为 true
