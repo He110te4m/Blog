@@ -84,6 +84,9 @@ if ($(".post-content").length > 0 || $('.page-content').length > 0) {
                 layer.alert(data.msg);
             } else {
                 layer.msg('评论发布成功');
+                setTimeout(function () {
+                    window.location.reload();
+                }, 3000);
             }
         });
 

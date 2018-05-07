@@ -91,18 +91,25 @@ class Article extends Controller
         $email  = $http->post('email');
         $author = $http->post('author');
 
+        // 校验是否有数据上传
         if ($common->verify($aid) && $common->verify($url) && $common->verify($text) && $common->verify($email) && $common->verify($author)) {
-            $date   = time();
-            $aid    = htmlspecialchars($aid);
-            $url    = htmlspecialchars($url);
-            $text   = htmlspecialchars($text);
-            $email  = htmlspecialchars($email);
-            $author = htmlspecialchars($author);
+            // 校验是否上传了有效数据
+            if (empty($aid) || empty($text) || empty($email) || empty($author)) {
+                $code   = 2;
+                $result = '检测到有一个 XSS 的傻逼路过...';
+            } else {
+                $date   = time();
+                $aid    = htmlspecialchars($aid);
+                $url    = htmlspecialchars($url);
+                $text   = htmlspecialchars($text);
+                $email  = htmlspecialchars($email);
+                $author = htmlspecialchars($author);
 
-            $result = $common->addRecord('`comment`', '`aid`, `cdate`, `website`, `content`, `email`, `author`', [$aid, $date, $url, $text, $email, $author]);
-            if ($result === true) {
-                $code = 0;
-                $msg  = '';
+                $result = $common->addRecord('`comment`', '`aid`, `cdate`, `website`, `content`, `email`, `author`', [$aid, $date, $url, $text, $email, $author]);
+                if ($result === true) {
+                    $code = 0;
+                    $msg  = '';
+                }
             }
         }
 
