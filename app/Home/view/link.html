@@ -1,0 +1,15 @@
+<main class="link-page">
+    <div class="container">
+        <h3 class="more-title"> 友情链接 </h3>
+        <div class="link-box-area">
+        <?php foreach($link as $item): ?>
+            <a class="link-box" href="<?=$item['url']?>" target="_blank">
+                <span class="link-name">
+                    <img class="link-favicon" src="<?=$item['avatar']?>" /> <?=$item['name']?>
+                </span>
+                <span class="link-direction"><?=$item['desc']?></span>
+            </a>
+        <?php endforeach; ?>
+        </div>
+    </div>
+</main>

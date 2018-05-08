@@ -77,39 +77,52 @@ class Article extends Controller
 
     public function comment()
     {
-        // 获取通用模型
-        $common = $this->getModel();
-        // 获取请求对象
-        $http = Despote::request();
-
+        // 状态码
         $code = 1;
 
-        // 获取参数
-        $aid    = $http->post('id');
-        $url    = $http->post('url');
-        $text   = $http->post('text');
-        $email  = $http->post('email');
-        $author = $http->post('author');
+        // 框架内置对象
+        $http  = Despote::request();
 
-        // 校验是否有数据上传
-        if ($common->verify($aid) && $common->verify($url) && $common->verify($text) && $common->verify($email) && $common->verify($author)) {
-            // 校验是否上传了有效数据
-            if (empty($aid) || empty($text) || empty($email) || empty($author)) {
-                $code   = 2;
-                $result = '检测到有一个 XSS 的傻逼路过...';
-            } else {
-                $date   = time();
-                $aid    = htmlspecialchars($aid);
-                $url    = htmlspecialchars($url);
-                $text   = htmlspecialchars($text);
-                $email  = htmlspecialchars($email);
-                $author = htmlspecialchars($author);
+        // 校验用户是否有权限访问
+        $result = $this->getModel('Viewer')->verify();
+        if ($result === false) {
+            header('location: /Page/error.html');
+            die;
+        } else if ($result === true) {
+            // 获取通用模型
+            $common = $this->getModel();
 
-                $result = $common->addRecord('`comment`', '`aid`, `cdate`, `website`, `content`, `email`, `author`', [$aid, $date, $url, $text, $email, $author]);
-                if ($result === true) {
-                    $code = 0;
-                    $msg  = '';
+            // 获取参数
+            $aid    = $http->post('id');
+            $url    = $http->post('url');
+            $text   = $http->post('text');
+            $email  = $http->post('email');
+            $author = $http->post('author');
+
+            // 校验是否有数据上传
+            if ($common->verify($aid) && $common->verify($url) && $common->verify($text) && $common->verify($email) && $common->verify($author)) {
+                // 校验是否上传了有效数据
+                if (empty($aid) || empty($text) || empty($email) || empty($author)) {
+                    $code   = 2;
+                    $result = '文明上网，请不要 XSS~';
+                } else {
+                    $date   = time();
+                    $aid    = htmlspecialchars($aid);
+                    $url    = htmlspecialchars($url);
+                    $text   = htmlspecialchars($text);
+                    $email  = htmlspecialchars($email);
+                    $author = htmlspecialchars($author);
+
+                    $result = $common->addRecord('`comment`', '`aid`, `cdate`, `website`, `content`, `email`, `author`', [$aid, $date, $url, $text, $email, $author]);
+                    if ($result === true) {
+                        $code = 0;
+                        $result  = '';
+                    } else {
+                        $result = '数据库响应出错，请联系管理员解决~';
+                    }
                 }
+            } else {
+                $result = '文明上网，请不要 XSS~';
             }
         }
 

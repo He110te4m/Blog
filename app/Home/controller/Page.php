@@ -37,4 +37,30 @@ class Page extends Controller
 
         $this->render('404.html', $pageParams, 'home.html', $layoutParams);
     }
+
+    public function link()
+    {
+        // 获取通用模型
+        $common = $this->getModel();
+
+        // 友情链接
+        $link = $common->getAllItem('`url`, `avatar`, `name`, `desc`', '`link`');
+        // 网站名
+        $title = $common->getItem('site_name');
+        // 文章分类
+        $category = $common->getAllItem('`title`, `key`', '`category`');
+
+        // 视图参数
+        $pageParams = [
+            'link' => $link,
+        ];
+        // 布局参数
+        $layoutParams = [
+            'title'     => $title,
+            'category'  => $category,
+            'sub_title' => '友情链接',
+        ];
+
+        $this->render('link.html', $pageParams, 'home.html', $layoutParams);
+    }
 }

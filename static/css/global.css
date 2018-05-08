@@ -1,0 +1,105 @@
+.link-page .container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+.link-page .more-title {
+    text-align: center;
+    font-weight: normal;
+    font-size: 25px;
+    margin: 20px 0 0 0;
+}
+/* 放置链接框的区域 */
+.link-page .link-box-area {
+    padding-top: 25px;
+    overflow: hidden;
+    zoom: 1;
+}
+/* 链接框 */
+.link-page .link-box {
+    width: 30%;
+    display: inline-block;
+    background: #fff;
+    height: 150px;
+    margin-left: 2.5%;
+    margin-bottom: 25px;
+    /* 这里这么处理是因为受下面的 display: -webkit-box; 影响，下划线又会回来 */
+    text-decoration: none!important;
+    overflow: hidden;
+    /* 渐变效果 */
+    -webkit-transition: all .2s linear;
+        transition: all .2s linear;
+}
+/* 链接区域鼠标滑动浮起效果 */
+.link-page .link-box:hover {
+    z-index: 2; /* 设置在顶层显示 */
+    -webkit-box-shadow: 0 15px 30px rgba(0,0,0,0.1);    /* 添加阴影 */
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    -webkit-transform: translate3d(0, -2px, 0);     /* 向上浮动 */
+    transform: translate3d(0, -2px, 0);
+}
+/* 链接名字 */
+.link-page .link-box .link-name {
+    font-size: 20px;
+    color: #15AAEA;
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+    margin: 18px 0;
+    /* 超过一行的内容被自动截断并加上省略号 */
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+/* 链接小图标 */
+.link-page .link-box .link-name .link-favicon {
+    display: inline-block;
+    max-width: 30px;
+    height: 30px;
+    margin: -3px 2px 0 2px;
+    vertical-align: middle;
+    border: none;
+}
+/* 链接描述 */
+.link-page .link-box .link-direction {
+    display: inline-block;
+    padding: 0 14px;
+    font-size: 15px;
+    line-height: 25px;
+    color: #555;
+    /* 超过三行的内容被自动截断并加上省略号 */
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+/* 网页宽度大于 900px, 每列显示 3 个 */
+@media screen and (min-width:900px) {
+    .link-page .link-box[data-role=".link-box-area"]:nth-child(3n) {
+        clear:both;
+    }
+}
+/* 网页宽度在 900px 到 600px 之间, 每列显示 2 个 */
+@media screen and (max-width:900px) and (min-width:600px) {
+    .link-page .link-box[data-role=".link-box-area"]:nth-child(2n) {
+        clear:both;
+    }
+    .link-page .link-box {
+        width: 40%;
+        height: 150px;
+        margin-left: 6.5%;
+    }
+}
+/* 网页宽度小于 600px, 每列显示 1 个 */
+@media screen and (max-width:600px) {
+    .link-page .link-box {
+        width: 90%;
+        height: 150px;
+        margin-left: 5%;
+        clear:both;
+    }
+}
