@@ -86,7 +86,7 @@ class Utils
             // 获取最后一次计时时间
             $len = count(self::$times[$title]);
             // 获取到函数调用时的时间
-            $mtime                  = explode(' ', microtime());
+            $mtime                 = explode(' ', microtime());
             self::$times[$title][] = $mtime[1] + $mtime[0];
             // 计算运行时间
             $runTime = self::$times[$title][$len] - self::$times[$title][0];

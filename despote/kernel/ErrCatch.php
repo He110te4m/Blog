@@ -95,9 +95,7 @@ EOF;
     private function display($type, $errstr, $errfile, $errline)
     {
         // 获取错误追踪
-        $star = $errline < 5 ? 0 : $errline - 5;
-        $end = $errline + 5;
-        $contents = Despote::file()->getLine($errfile, [$star, $end]);
+        $contents = Despote::file()->getLine($errfile, [$errline - 5, $errline + 5]);
         $trace    = '<li> ' . implode(' </li><li> ', $contents) . ' </li>';
         // 获取错误代码行内容
         $code = Despote::file()->getLine($errfile, $errline);

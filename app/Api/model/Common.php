@@ -17,6 +17,12 @@ use \Exception;
 
 class Common extends Model
 {
+    private static $map = [
+        0 => '响应成功',
+        1 => '请求失败',
+        2 => '数据库出错',
+    ];
+
     /**
      * 校验变量，用于校验 HTTP 提交的参数
      * @param  Mixed   $data  需要校验的变量，如果是数组并且需要检测是否含有某个键，请使用第二个参数
@@ -50,10 +56,12 @@ class Common extends Model
      */
     public function getCount($table, $where = '', $data = [])
     {
-        $count = 0;
-
-        $res   = Despote::sql()->select('COUNT(1)', $table, $where, $data);
-        $count = $res->fetch()['COUNT(1)'];
+        try {
+            $res   = Despote::sql()->select('COUNT(1)', $table, $where, $data);
+            $count = $res->fetch()['COUNT(1)'];
+        } catch (Exception $e) {
+            $count = 0;
+        }
 
         return $count;
     }
@@ -67,20 +75,20 @@ class Common extends Model
      */
     public function addRecord($table, $field, $data = [])
     {
-        $result = true;
+        $code = 0;
 
         try {
             $res = Despote::sql()->insert($table, $field, $data);
 
             if ($res->rowCount() === 0) {
                 $data = implode(', ', $data);
-                $result = "由于未知原因，INSERT INTO {$table} ({$field}) VALUES ({$data}) 执行失败";
+                $code = 2;
             }
         } catch (Exception $e) {
-            $result = $e->getMessage();
+            $code = 2;
         }
 
-        return $result;
+        return $code;
     }
 
     /**
@@ -92,15 +100,15 @@ class Common extends Model
      */
     public function delRecord($table, $cond = '', $data = [])
     {
-        $result = true;
+        $code = 0;
 
         try {
             Despote::sql()->delete($table, $cond, $data);
         } catch (Exception $e) {
-            $result = $e->getMessage();
+            $code = 2;
         }
 
-        return $result;
+        return $code;
     }
 
     /**
@@ -113,19 +121,15 @@ class Common extends Model
      */
     public function updateRecord($table, $field, $cond = '', $data = [])
     {
-        $result = true;
+        $code = 0;
 
         try {
             $res = Despote::sql()->update($table, $field, $cond, $data);
-
-            if ($res->rowCount() === 0) {
-                $result = "由于未知原因，UPDATE {$table} SET {$field} 执行失败";
-            }
         } catch (Exception $e) {
-            $result = $e->getMessage();
+            $code = 2;
         }
 
-        return $result;
+        return $code;
     }
 
     /**
@@ -138,7 +142,6 @@ class Common extends Model
      */
     public function getRecord($field, $table, $cond = '', $data = [])
     {
-
         try {
             $res = Despote::sql()->select($field, $table, $cond, $data);
         } catch (Exception $e) {
@@ -148,6 +151,11 @@ class Common extends Model
         return $res;
     }
 
+    /**
+     * 获取 setting 表中的指定设置，自动使用缓存
+     * @param   String  $key  设置项名
+     * @return  String        设置值
+     */
     public function getItem($key)
     {
         $db = Despote::sql();
@@ -159,6 +167,12 @@ class Common extends Model
         return $result;
     }
 
+    /**
+     * 获取整个表中的数据，自动使用缓存
+     * @param   String $field  需要获取的字段名
+     * @param   String $table  需要获取的表名
+     * @return  Array           获取到的数据
+     */
     public function getAllItem($field, $table)
     {
         $db = Despote::sql();
@@ -168,5 +182,16 @@ class Common extends Model
         $result = $db->fetchAll($res);
 
         return $result;
+    }
+
+    public function getData($code = 0, $append = [])
+    {
+        $data = [
+            'code' => $code,
+            'msg'  => self::$map[$code],
+        ];
+        $data = array_merge($data, $append);
+
+        return $data;
     }
 }
