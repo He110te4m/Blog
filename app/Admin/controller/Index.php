@@ -16,17 +16,19 @@ use \Despote;
 
 class Index extends Controller
 {
+    public function init()
+    {
+        if ($this->getModel()->check() === false) {
+            header('location: /Admin/User/login.html');
+            die;
+        }
+    }
+
     public function index()
     {
-        // 获取通用模型
-        $common = $this->getModel();
-
-        // 获取网站标题
-        $title = $common->getItem('site_name');
-
         // 视图参数
         $pageParams = [
-            'title'     => $title,
+            'title'     => $this->getModel()->getItem('site_name'),
             'sub_title' => '后台首页',
         ];
 

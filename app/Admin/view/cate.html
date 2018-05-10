@@ -1,0 +1,20 @@
+<blockquote class="layui-elem-quote layui-form">
+    <div class="layui-inline">
+        <div class="layui-input-inline">
+            <input name="cate" class="layui-input" placeholder="请输入分类">
+        </div>
+        <a lay-submit lay-filter="category" lay-event="add" class="layui-btn">添加</a>
+    </div>
+    <div class="layui-inline">
+        <a lay-submit lay-filter="category" lay-event="del" class="layui-btn layui-btn-danger">批量删除</a>
+    </div>
+    <div class="layui-inline">
+        <div class="layui-form-mid layui-word-aux">Tips: 删除之后无法找回！</div>
+    </div>
+</blockquote>
+
+<table id="cate-list" lay-filter="cate-list"></table>
+
+<script type="text/html" id="tools">
+    <botton class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</botton>
+</script>

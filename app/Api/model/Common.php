@@ -21,6 +21,8 @@ class Common extends Model
         0 => '响应成功',
         1 => '请求失败',
         2 => '数据库出错',
+        3 => '口令错误',
+        4 => '分类已存在'
     ];
 
     /**
@@ -193,5 +195,13 @@ class Common extends Model
         $data = array_merge($data, $append);
 
         return $data;
+    }
+
+    public function check()
+    {
+        $sid1 = Despote::cookie()->get('sid');
+        $sid2 = Despote::fileCache()->get('sid');
+
+        return $sid2 !== false && $sid1 == $sid2;
     }
 }

@@ -169,4 +169,12 @@ class Common extends Model
 
         return $result;
     }
+
+    public function check()
+    {
+        $sid1 = Despote::cookie()->get('sid');
+        $sid2 = Despote::fileCache()->get('sid');
+
+        return $sid2 !== false && $sid1 == $sid2;
+    }
 }

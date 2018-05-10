@@ -15,6 +15,14 @@ use \despote\base\Controller;
 
 class Menu extends Controller
 {
+    public function init()
+    {
+        if ($this->getModel()->check() === false) {
+            header('location: /Page/error.html');
+            die;
+        }
+    }
+
     public function get()
     {
         $data = [
@@ -59,31 +67,11 @@ class Menu extends Controller
                 'id' => '3',
                 'name' => '分类模块',
                 'parentId' => '0',
-                'url' => '',
+                'url' => '/Admin/Cate/manage',
                 'icon' => '',
                 'order' => '1',
                 'isHeader' => '0',
-                'childMenus' => [
-                    [
-                        'id' => '31',
-                        'name' => '新增分类',
-                        'parentId' => '3',
-                        'url' => '/Admin/Category/add.html',
-                        'icon' => '&#xe604;',
-                        'order' => '1',
-                        'isHeader' => '0',
-                        'childMenus' =>'',
-                    ], [
-                        'id' => '32',
-                        'name' => '分类管理',
-                        'parentId' => '3',
-                        'url' => '/Admin/Category/manage.html',
-                        'icon' => '&#xe602;',
-                        'order' => '1',
-                        'isHeader' => '0',
-                        'childMenus' =>'',
-                    ]
-                ]
+                'childMenus' => '',
             ]
         ];
 

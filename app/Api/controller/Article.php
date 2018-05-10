@@ -17,6 +17,14 @@ use \Exception;
 
 class Article extends Controller
 {
+    public function init()
+    {
+        if ($this->getModel()->check() === false) {
+            header('location: /Page/error.html');
+            die;
+        }
+    }
+
     public function add()
     {
         // 初始化工具对象
@@ -177,7 +185,8 @@ class Article extends Controller
         $this->render('api.php', ['data' => $data]);
     }
 
-    public function edit() {
+    public function edit()
+    {
         // 初始化工具对象
         $db     = Despote::sql();
         $common = $this->getModel();

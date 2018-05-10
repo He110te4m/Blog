@@ -25,7 +25,7 @@ layui.define(['form', 'layer', 'table', 'jquery', 'laydate'], function(exports) 
                 layer.msg('登陆成功，正在为您跳转...');
                 setTimeout(function() {
                     window.location.href = '/Admin/Index/index.html';
-                }, 3000);
+                }, 1500);
             }
         });
 
@@ -198,10 +198,12 @@ layui.define(['form', 'layer', 'table', 'jquery', 'laydate'], function(exports) 
         elem: '#cate-list',
         page: true,
         data: [],
-        url: '/Api/Category/all',
+        url: '/Api/Cate/get.html',
         cols: [[
             { type: 'checkbox' },
+            { field: 'key', title: '关键字', align: 'center', width: 200, edit: 'text' },
             { field: 'title', title: '分类标题', align: 'center', width: 200, edit: 'text' },
+            { field: 'desc', title: '分类描述', align: 'center', edit: 'text' },
             { fixed: 'right', title: '操作', align: 'center', width: 90, toolbar: '#tools' }
         ]]
     });
@@ -215,7 +217,7 @@ layui.define(['form', 'layer', 'table', 'jquery', 'laydate'], function(exports) 
                 type: 3,
                 icon: 1,
             });
-            $.post('/Api/Category/add', {title: $('[name="cate"]').val()}, function(data) {
+            $.post('/Api/Cate/add.html', {title: $('[name="cate"]').val()}, function(data) {
                 if (typeof data == 'string') {
                     data = eval('(' + data + ')');
                 }
@@ -234,7 +236,7 @@ layui.define(['form', 'layer', 'table', 'jquery', 'laydate'], function(exports) 
                 for (var i = 0; i < list.data.length; ++i) {
                     params.push(list.data[i]['id']);
                 }
-                $.post('/Api/Category/del', {list: JSON.stringify(params)}, function(data) {
+                $.post('/Api/Cate/del.html', {list: JSON.stringify(params)}, function(data) {
                     if (typeof data == 'string') {
                         data = eval('(' + data + ')');
                     }
@@ -254,7 +256,7 @@ layui.define(['form', 'layer', 'table', 'jquery', 'laydate'], function(exports) 
 
     // 监听单元格编辑
     table.on('edit(cate-list)', function(obj) {
-        $.post('/Api/Category/edit', {id: obj.data.id, field: obj.field, value: obj.value}, function(data) {
+        $.post('/Api/Cate/edit.html', {id: obj.data.id, field: obj.field, value: obj.value}, function(data) {
             data = eval('(' + data + ')');
             if (data.code) {
                 layer.msg(data.msg);
@@ -271,7 +273,7 @@ layui.define(['form', 'layer', 'table', 'jquery', 'laydate'], function(exports) 
         if (event == 'del') {
             layer.confirm('确定删除这个分类？', {title: '提示'}, function(index) {
                 layer.close(index);
-                $.post('/Api/Category/del', {id: data.id}, function(data) {
+                $.post('/Api/Cate/del.html', {id: data.id}, function(data) {
                     if (typeof data == 'string') {
                         data = eval('(' + data + ')');
                     }
