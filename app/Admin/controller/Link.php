@@ -11,23 +11,23 @@
  */
 namespace app\Admin\controller;
 
-use \despote\base\Controller;
 use \Despote;
+use \despote\base\Controller;
 
-class User extends Controller
+class Link extends Controller
 {
     public function init()
     {
-        if ($this->getModel()->check() !== false) {
-            header('location: /Admin/Index/index.html');
+        if ($this->getModel()->check() === false) {
+            header('location: /Admin/User/login.html');
             die;
         }
     }
 
-    public function login()
+    public function manage()
     {
         $pageParams = [];
 
-        $this->render('login.html', $pageParams, 'child.html');
+        $this->render('link.html', $pageParams, 'child.html');
     }
 }

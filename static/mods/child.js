@@ -297,34 +297,20 @@ layui.define(['form', 'layer', 'table', 'jquery', 'laydate'], function(exports) 
         elem: '#link-list',
         page: true,
         data: [],
-        url: '/Api/Link/all',
-        cols: [
-            [{
-                type: 'checkbox'
-            }, {
-                field: 'title',
-                title: '网站名',
-                align: 'center',
-                width: 200,
-                edit: 'text'
-            }, {
-                field: 'url',
-                title: '友链地址',
-                align: 'center',
-                edit: 'text'
-            }, {
-                fixed: 'right',
-                title: '操作',
-                align: 'center',
-                width: 90,
-                toolbar: '#tools'
-            }]
-        ]
+        url: '/Api/Link/get.html',
+        cols: [[
+            { type: 'checkbox' },
+            { field: 'name', title: '网站名', align: 'center', width: 150, edit: 'text' },
+            { field: 'url', title: '友链地址', align: 'center', width: 200, edit: 'text' },
+            { field: 'avatar', title: '朋友头像', align: 'center', edit: 'text' },
+            { field: 'desc', title: '简介', align: 'center', edit: 'text' },
+            { fixed: 'right', title: '操作', align: 'center', width: 90, toolbar: '#tools' }
+        ]]
     });
 
     // 监听单元格编辑
     table.on('edit(link-list)', function(obj) {
-        $.post('/Api/Link/edit', {id: obj.data.id, field: obj.field, value: obj.value}, function(data) {
+        $.post('/Api/Link/edit.html', {id: obj.data.id, field: obj.field, value: obj.value}, function(data) {
             data = eval('(' + data + ')');
             if (data.code) {
                 layer.msg(data.msg);
@@ -364,7 +350,7 @@ layui.define(['form', 'layer', 'table', 'jquery', 'laydate'], function(exports) 
             for (var i = 0; i < list.data.length; ++i) {
                 params.push(list.data[i]['id']);
             }
-            $.post('/Api/Link/del', {list: JSON.stringify(params)}, function(data) {
+            $.post('/Api/Link/del.html', {list: JSON.stringify(params)}, function(data) {
                 if (typeof data == 'string') {
                     data = eval('(' + data + ')');
                 }
@@ -388,7 +374,7 @@ layui.define(['form', 'layer', 'table', 'jquery', 'laydate'], function(exports) 
                 type: 3,
                 icon: 1,
             });
-            $.post('/Api/Link/add', obj.field, function(data) {
+            $.post('/Api/Link/add.html', obj.field, function(data) {
                 if (typeof data == 'string') {
                     data = eval('(' + data + ')');
                 }

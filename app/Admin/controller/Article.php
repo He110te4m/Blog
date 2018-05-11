@@ -16,6 +16,14 @@ use \despote\base\Controller;
 
 class Article extends Controller
 {
+    public function init()
+    {
+        if ($this->getModel()->check() === false) {
+            header('location: /Admin/User/login.html');
+            die;
+        }
+    }
+
     public function add()
     {
         $category = $this->getModel()->getAllItem('`title`, `key`', 'category');

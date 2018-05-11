@@ -11,11 +11,19 @@
  */
 namespace app\Admin\controller;
 
-use \despote\base\Controller;
 use \Despote;
+use \despote\base\Controller;
 
 class Cate extends Controller
 {
+    public function init()
+    {
+        if ($this->getModel()->check() === false) {
+            header('location: /Admin/User/login.html');
+            die;
+        }
+    }
+
     public function manage()
     {
         $pageParams = [];

@@ -72,6 +72,15 @@ class Menu extends Controller
                 'order' => '1',
                 'isHeader' => '0',
                 'childMenus' => '',
+            ], [
+                'id' => '4',
+                'name' => '友链模块',
+                'parentId' => '0',
+                'url' => '/Admin/Link/manage',
+                'icon' => '',
+                'order' => '1',
+                'isHeader' => '0',
+                'childMenus' => '',
             ]
         ];
 

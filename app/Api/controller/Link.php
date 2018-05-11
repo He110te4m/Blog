@@ -15,7 +15,7 @@ use \Despote;
 use \despote\base\Controller;
 use \Exception;
 
-class Cate extends Controller
+class Link extends Controller
 {
     public function init()
     {
@@ -29,21 +29,14 @@ class Cate extends Controller
     {
         // 初始化工具对象
         $common = $this->getModel();
+        $http   = Despote::request();
 
-        $title = Despote::request()->post('title');
+        // 获取数据
+        $url  = $http->post('url');
+        $name = $http->post('title');
 
-        if ($common->verify($title)) {
-            $res = $common->getRecord('1', '`category`', 'WHERE `title` = ?', [$title]);
-
-            if ($res !== false) {
-                if (empty($res->fetch())) {
-                    $code = $common->addRecord('`category`', '`title`', [$title]);
-                } else {
-                    $code = 4;
-                }
-            } else {
-                $code = 2;
-            }
+        if ($common->verify($url) && $common->verify($name)) {
+            $code = $common->addRecord('`link`', '`url`, `name`', [$url, $name]);
         } else {
             $code = 1;
         }
@@ -71,10 +64,10 @@ class Cate extends Controller
         $list  = [];
         $start = ($page - 1) * $limit;
 
-        $res = $common->getRecord('`cid` AS `id`, `key`, `title`, `desc`', '`category`', "ORDER BY `cid` LIMIT {$start}, {$limit}");
+        $res = $common->getRecord('`id`, `url`, `avatar`, `name`, `desc`', '`link`', "ORDER BY `id` LIMIT {$start}, {$limit}");
         if ($res !== false) {
             $list  = $res->fetchAll();
-            $count = $common->getCount('`category`');
+            $count = $common->getCount('`link`');
         } else {
             $code = 2;
         }
@@ -99,17 +92,15 @@ class Cate extends Controller
         if ($common->verify($id) || $common->verify($list)) {
             if ($common->verify($id)) {
                 // 删除分类
-                $code = $common->delRecord('`category`', 'WHERE `cid` = ?', [$id]);
+                $code = $common->delRecord('`link`', 'WHERE `id` = ?', [$id]);
             } else {
                 // 拼接 id
                 $ids = json_decode($list, true);
                 $ids = '(' . implode(',', $ids) . ')';
 
                 // 批量删除分类
-                $code = $common->delRecord('`category`', "WHERE `cid` IN {$ids}");
+                $code = $common->delRecord('`link`', "WHERE `id` IN {$ids}");
             }
-        } else {
-            $code = 1;
         }
 
         // 生成 data 数组
@@ -131,7 +122,7 @@ class Cate extends Controller
         $value = $http->post('value');
 
         if ($common->verify($id) && $common->verify($field) && $common->verify($value)) {
-            $code = $common->updateRecord('`category`', "`{$field}` = ?", 'WHERE `cid` = ?', [$value, $id]);
+            $code = $common->updateRecord('`link`', "`{$field}` = ?", 'WHERE `id` = ?', [$value, $id]);
         } else {
             $code = 1;
         }

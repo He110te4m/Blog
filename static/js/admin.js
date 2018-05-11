@@ -442,5 +442,36 @@ $(function () {
     });
 });
 
-let a = 1;
-let vv = 1;
+// 退出登陆
+$('#layout').on('click', function () {
+    $.get('/Api/User/layout.html', function (data) {
+        if (typeof data == 'string') {
+            data = eval('(' + data + ')');
+        }
+        if (data.code == 0) {
+            layer.msg('即将跳转到登陆页...');
+            setTimeout(function () {
+                window.location.href = '/Admin/User/login.html';
+            }, 1500);
+        } else {
+            layer.alert('服务器出现异常，无法正确完成响应');
+        }
+    });
+});
+
+// 清空缓存
+$('#flush').on('click', function () {
+    $.get('/Api/User/flush.html', function (data) {
+        if (typeof data == 'string') {
+            data = eval('(' + data + ')');
+        }
+        if (data.code == 0) {
+            layer.msg('即将跳转到登陆页...');
+            setTimeout(function () {
+                window.location.href = '/Admin/User/login.html';
+            }, 1500);
+        } else {
+            layer.alert('服务器出现异常，无法正确完成响应');
+        }
+    });
+});

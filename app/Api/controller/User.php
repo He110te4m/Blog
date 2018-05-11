@@ -48,4 +48,33 @@ class User extends Controller
         // 渲染 json
         $this->render('api.php', ['data' => $data]);
     }
+
+    public function layout()
+    {
+        // 设置初值
+        $code = 0;
+
+        Despote::cookie()->del('sid');
+        Despote::fileCache()->del('sid');
+
+        // 生成 data 数组
+        $data = $this->getModel()->getData($code);
+
+        // 渲染 json
+        $this->render('api.php', ['data' => $data]);
+    }
+
+    public function flush()
+    {
+        // 设置初值
+        $code = 0;
+
+        Despote::fileCache()->flush();
+
+        // 生成 data 数组
+        $data = $this->getModel()->getData($code);
+
+        // 渲染 json
+        $this->render('api.php', ['data' => $data]);
+    }
 }
