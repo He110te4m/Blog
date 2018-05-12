@@ -81,6 +81,15 @@ class Menu extends Controller
                 'order' => '1',
                 'isHeader' => '0',
                 'childMenus' => '',
+            ], [
+                'id' => '5',
+                'name' => '社链模块',
+                'parentId' => '0',
+                'url' => '/Admin/Social/manage',
+                'icon' => '',
+                'order' => '1',
+                'isHeader' => '0',
+                'childMenus' => '',
             ]
         ];
 

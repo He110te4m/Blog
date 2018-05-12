@@ -391,6 +391,108 @@ layui.define(['form', 'layer', 'table', 'jquery', 'laydate'], function(exports) 
         return false;
     });
 
+    ////////////////
+    // 社交链接页面 //
+    ////////////////
+
+    // 渲染表格
+    var socialList = table.render({
+        elem: '#social-list',
+        page: true,
+        data: [],
+        url: '/Api/Social/get.html',
+        cols: [[
+            { type: 'checkbox' },
+            { field: 'title', title: '标题', align: 'center', width: 150, edit: 'text' },
+            { field: 'url', title: '地址', align: 'center', edit: 'text' },
+            { field: 'icon', title: '图标', align: 'center', width: 200, edit: 'text' },
+            { fixed: 'right', title: '操作', align: 'center', width: 90, toolbar: '#tools' }
+        ]]
+    });
+
+    // 监听单元格编辑
+    table.on('edit(social-list)', function(obj) {
+        $.post('/Api/Social/edit.html', {id: obj.data.id, field: obj.field, value: obj.value}, function(data) {
+            data = eval('(' + data + ')');
+            if (data.code) {
+                layer.msg(data.msg);
+                socialList.reload({});
+            }
+        });
+    });
+
+    // 工具栏监听
+    table.on('tool(social-list)', function(obj) {
+        var data = obj.data;
+        var event = obj.event;
+
+        if (event == 'del') {
+            layer.confirm('确定删除这个友情链接？', {title: '提示'}, function(index) {
+                layer.close(index);
+                $.post('/Api/Social/del', {id: data.id}, function(data) {
+                    if (typeof data == 'string') {
+                        data = eval('(' + data + ')');
+                    }
+                    if (data.code) {
+                        layer.alert(data.msg);
+                    } else {
+                        obj.del();
+                        layer.msg('删除成功');
+                    }
+                });
+            });
+        }
+    });
+
+    // 监听分类管理
+    $('[data-type="del"]').on('click', function() {
+        layer.confirm('确定删除这些社交链接么', function(index) {
+            var list = table.checkStatus('social-list');
+            var params = [];
+            for (var i = 0; i < list.data.length; ++i) {
+                params.push(list.data[i]['id']);
+            }
+            $.post('/Api/Social/del.html', {list: JSON.stringify(params)}, function(data) {
+                if (typeof data == 'string') {
+                    data = eval('(' + data + ')');
+                }
+                if (data.code) {
+                    layer.alert(data.msg);
+                } else {
+                    socialList.reload({});
+                    layer.msg('删除成功');
+                }
+            });
+            layer.close(index);
+        });
+    });
+
+    // 监听分类管理
+    form.on('submit(social)', function(obj) {
+        var event = $(obj.elem).attr('lay-event');
+
+        if (event == 'add') {
+            var index = layer.open({
+                type: 3,
+                icon: 1,
+            });
+            $.post('/Api/Social/add.html', obj.field, function(data) {
+                if (typeof data == 'string') {
+                    data = eval('(' + data + ')');
+                }
+                layer.close(index);
+                if (data.code) {
+                    layer.alert(data.msg);
+                } else {
+                    layer.msg('添加成功');
+                    socialList.reload({});
+                }
+            });
+        }
+
+        return false;
+    });
+
 
     exports('blog');
 });
