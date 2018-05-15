@@ -77,4 +77,23 @@ class User extends Controller
         // 渲染 json
         $this->render('api.php', ['data' => $data]);
     }
+
+    public function edit()
+    {
+        $common = $this->getModel();
+
+        // 修改密码
+        $new  = Despote::request()->post('key');
+        if ($common->verify($new)) {
+            $code = $common->updateRecord('`setting`', '`val` = ?', 'WHERE `key` = ?', [$new, 'key']);
+        } else {
+            $code = 1;
+        }
+
+        // 生成 data 数组
+        $data = $common->getData($code);
+
+        // 渲染 json
+        $this->render('api.php', ['data' => $data]);
+    }
 }

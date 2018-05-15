@@ -442,6 +442,27 @@ $(function () {
     });
 });
 
+// 修改密码
+$('#change').on('click', function () {
+    layer.prompt({
+        title: '修改密码',
+        value: Math.random() * 999999999 >> 0,
+        maxlength: 10,
+    }, function(value, index, elem) {
+        $.post('/Api/User/edit.html', {key: value}, function(data) {
+            if (typeof data == 'string') {
+                data = eval('(' + data + ')');
+            }
+            layer.close(index);
+            if (data.code) {
+                layer.alert(data.msg);
+            } else {
+                $('#flush').trigger('click');
+            }
+        });
+    });
+});
+
 // 退出登陆
 $('#layout').on('click', function () {
     $.get('/Api/User/layout.html', function (data) {
