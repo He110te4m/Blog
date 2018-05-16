@@ -29,7 +29,7 @@ return [
 
         // // 数据库名，默认为 test
         // 'name'  => 'blog_he110_info',
-        'name'  => 'test',
+        'name'  => 'blog',
     ],
     // 日志记录
     'logger' => [

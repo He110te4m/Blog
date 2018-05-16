@@ -100,9 +100,6 @@ class Article extends Controller
 
             if ($res !== false) {
                 $list = $res->fetchAll();
-                foreach ($list as &$item) {
-                    $item['date'] = date('Y-m-d', $item['date']);
-                }
                 $count = $common->getCount('`article`', 'WHERE `title` LIKE ?', ["%{$keyword}%"]);
             } else {
                 $code = 2;
@@ -112,13 +109,14 @@ class Article extends Controller
 
             if ($res !== false) {
                 $list = $res->fetchAll();
-                foreach ($list as &$item) {
-                    $item['date'] = date('Y-m-d', $item['date']);
-                }
                 $count = $common->getCount('`article`');
             } else {
                 $code = 2;
             }
+        }
+
+        foreach ($list as &$item) {
+            $item['date'] = date('Y-m-d', $item['date']);
         }
 
         // 生成 data 数组

@@ -493,6 +493,83 @@ layui.define(['form', 'layer', 'table', 'jquery', 'laydate'], function(exports) 
         return false;
     });
 
+    ////////////////
+    // 评论管理界面 //
+    ////////////////
+
+    // 渲染表格
+    var commentList = table.render({
+        elem: '#comment-list',
+        page: true,
+        data: [],
+        url: '/Api/Comment/get.html',
+        cols: [[
+            { type: 'checkbox' },
+            { field: 'date', title: '发布时间', align: 'center', width: 120 },
+            { field: 'title', title: '文章标题', align: 'center' },
+            { field: 'author', title: '评论人', align: 'center', width: 100 },
+            { field: 'content', title: '评论内容', align: 'center' },
+            { fixed: 'right', title: '操作', align: 'center', width: 90, toolbar: '#tools' }
+        ]]
+    });
+
+    // 监听评论管理
+    form.on('submit(comment)', function(obj) {
+        var event = $(obj.elem).attr('lay-event');
+
+        if (event == 'search') {
+            commentList.reload({
+                where: {
+                    keyword: $('[name="keyword"]').val()
+                }
+            });
+        } else if(event == 'del') {
+            layer.confirm('确定删除这些评论么', function(index) {
+                var list = table.checkStatus('comment-list');
+                var params = [];
+                for (var i = 0; i < list.data.length; ++i) {
+                    params.push(list.data[i]['id']);
+                }
+                $.post('/Api/Comment/del.html', {list: JSON.stringify(params)}, function(data) {
+                    if (typeof data == 'string') {
+                        data = eval('(' + data + ')');
+                    }
+                    if (data.code) {
+                        layer.alert(data.msg);
+                    } else {
+                        commentList.reload({});
+                        layer.msg('删除成功');
+                    }
+                });
+                layer.close(index);
+            });
+        }
+
+        return false;
+    });
+
+    // 工具栏监听
+    table.on('tool(comment-list)', function(obj) {
+        var data = obj.data;
+        var event = obj.event;
+
+        if (event == 'del') {
+            layer.confirm('确定删除这个评论？', {title: '提示'}, function(index) {
+                layer.close(index);
+                $.post('/Api/Comment/del.html', {id: data.id}, function(data) {
+                    if (typeof data == 'string') {
+                        data = eval('(' + data + ')');
+                    }
+                    if (data.code) {
+                        layer.alert(data.msg);
+                    } else {
+                        obj.del();
+                        layer.msg('删除成功');
+                    }
+                });
+            });
+        }
+    });
 
     exports('blog');
 });
