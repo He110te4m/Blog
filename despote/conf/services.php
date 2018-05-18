@@ -22,14 +22,13 @@ return [
         // 'port'  => 3306,
 
         // // 数据库用户名，默认为 root
-        // 'usr'   => 'blog_he110_info',
+        // 'usr'   => 'root',
 
         // // 数据库密码，默认为 root
-        // 'pwd'   => '520520520',
+        // 'pwd'   => 'root',
 
         // // 数据库名，默认为 test
-        // 'name'  => 'blog_he110_info',
-        'name'  => 'blog',
+        // 'name'  => 'test',
     ],
     // 日志记录
     'logger' => [

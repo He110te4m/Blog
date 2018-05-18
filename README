@@ -1,0 +1,47 @@
+﻿# Demo
+[He110's Blog](http://blog.he110.info)
+
+# Update
+1. 增加评论功能
+2. 更换网站模板，采用 typecho Simple 主题，修改后生成
+3. 增加网站看板娘
+4. 更新后台，开启响应式支持
+5. 更新使用的 [Despote](https://github.com/he110te4m/Despote) 框架，完善时间统计和内存占用统计
+6. 优化数据库设计，增加安装文件，不需要手动导入数据库
+7. 网站加入 XSS 防御支持，加密 cookie，引入签名防止 cookie 被修改
+
+# Install
+1. 修改 /despote/conf/services.php 中 MySQL 相关配置（数据库地址、数据库端口、数据库用户名、数据库密码、数据库名）：
+```
+return [
+    // MySQL
+    'sql'    => [
+        'class' => '\despote\kernel\db\MySQL',
+
+        // // 数据库地址，默认为 localhost
+        // 'host'  => 'localhost',
+
+        // // 数据库端口，默认为 3306
+        // 'port'  => 3306,
+
+        // // 数据库用户名，默认为 root
+        // 'usr'   => 'root',
+
+        // // 数据库密码，默认为 root
+        // 'pwd'   => 'root',
+
+        // // 数据库名，默认为 test
+        // 'name'  => 'test',
+    ],
+    // 日志记录
+    'logger' => [
+        'class' => '\despote\kernel\Logger',
+        // 日志等级
+        'limit' => 5,
+    ],
+    'md'       => '\despote\extend\Parsedown',
+];
+```
+2. 上传程序至服务器中，服务器要求支持 php5.5+
+3. 访问 `http://你的网址/install.php`
+4. 使用 `http://你的网址/pass.php?pass=你的密码` 获取现在的动态密码，默认密码为 123456789，可在后台 `http://你的网址/Admin/Index/index.html` 中修改
