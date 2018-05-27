@@ -45,6 +45,8 @@ class Article extends Controller
             $cache->set('post-' . $aid, $post, 604800);
         }
 
+        $post['comment_num'] = $common->getRecord('`aid`,  `title`, `category`, `cdate` AS `date`, `content`, `comment_num`', '`article_list`', 'WHERE `aid` = ? LIMIT 1', [$aid])->fetch()['comment_num'];
+
         // 获取评论
         $comment = $common->getRecord('`cdate` as `date`, `author`, `email`, `website`, `content`', '`comment`', 'WHERE `aid` = ? ORDER BY `cdate` DESC', [$aid])->fetchAll();
         foreach ($comment as &$item) {
