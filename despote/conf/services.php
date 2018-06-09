@@ -28,7 +28,7 @@ return [
         // 'pwd'   => 'root',
 
         // // 数据库名，默认为 test
-        // 'name'  => 'test',
+        'name'  => 'blog',
     ],
     // 日志记录
     'logger' => [

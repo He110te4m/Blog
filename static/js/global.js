@@ -7,6 +7,25 @@ function elemAddClass(elem, cla) {
     }
 }
 
+function save(key, value) {
+    if (window.localStorage) {
+        window.localStorage[key] = value;
+    }
+}
+
+function read(key) {
+    var val = null;
+
+    if (window.localStorage) {
+        val = window.localStorage[key];
+    }
+    return val;
+}
+
+if (read('neon') == 'true') {
+    elemAddClass($('body'), 'neon');
+}
+
 // 手机版顶部菜单
 $('.toggle-btn').on('click', function() {
     elemAddClass($('.head-menu'), 'active');
@@ -18,6 +37,7 @@ $('.search-btn').on('click', function() {
 // 夜间模式
 $('.light-btn').on('click', function() {
     elemAddClass($('body'), 'neon');
+    save('neon', $('body').hasClass('neon'));
 });
 // 显示返回顶部按钮
 $(window).on('scroll', function() {
