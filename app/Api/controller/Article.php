@@ -40,7 +40,7 @@ class Article extends Controller
         $title    = $http->post('title');
         $content  = $http->post('content');
         $category = $http->post('category');
-        $abstract = $http->post('abstract');
+        $abstract = $http->post('abstract', '');
 
         // 校验数据
         if ($common->verify($date) && $common->verify($title) && $common->verify($content) && $common->verify($category)) {

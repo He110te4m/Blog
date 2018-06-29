@@ -35,7 +35,7 @@ class Common extends Model
                 }
             }
         } else {
-            is_null($data) && $flag = false;
+            is_null($data) && ($flag = false);
         }
 
         return $flag;
